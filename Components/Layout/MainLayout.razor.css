@@ -28,7 +28,7 @@ main {
     }
 
     .sidebar {
-        width: 110px;
+        width: 5%;
         height: 100vh;
         position: sticky;
         top: 0;

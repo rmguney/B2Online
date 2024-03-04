@@ -6,4 +6,18 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\assets\b2-logo.svg" />
+    <None Include="wwwroot\assets\b2-logo2.svg" />
+    <None Include="wwwroot\assets\husky-0.svg" />
+    <None Include="wwwroot\assets\husky-1.svg" />
+    <None Include="wwwroot\assets\husky-2.svg" />
+    <None Include="wwwroot\assets\husky-3.svg" />
+    <None Include="wwwroot\assets\husky-4.svg" />
+    <None Include="wwwroot\assets\husky-5.svg" />
+    <None Include="wwwroot\assets\husky-main.svg" />
+    <None Include="wwwroot\assets\husky-nav.svg" />
+    <None Include="wwwroot\assets\omnia-logo.svg" />
+  </ItemGroup>
+
 </Project>
