@@ -18,30 +18,32 @@
             <a class="p-10"></a>
             <form>
                 <div class="py-8">
-                    <label for="username" class="block text-gray-700 text-sm mb-2">Kullanıcı Adı</label>
-                    <input type="text" id="username" name="username" class="p-2 block w-full rounded-md shadow-sm">
+                    <label for="username" class="block text-blue-950 text-md mb-1">Kullanıcı Adı</label>
+                    <input type="text" id="username" name="username" class="p-2 block w-full rounded-md shadow-sm focus:outline-orange-500">
                 </div>
 
                 <div class="mb-4">
-                    <label for="password" class="block text-gray-700 text-sm mb-2">Şifre</label>
-                    <input type="password" id="password" name="password" class="p-2 block w-full rounded-md shadow-sm">
+                    <label for="password" class="block text-blue-950 text-md mb-1">Şifre</label>
+                    <input type="password" id="password" name="password" class="p-2 block w-full rounded-md shadow-sm focus:outline-orange-500">
                 </div>
                 
                 <div class="mb-2 flex items-center">
                     <input type="checkbox" id="remember_me" name="remember_me" class="mr-2">
-                    <label for="remember_me" class="text-gray-700 text-sm">Beni Hatırla</label>
+                    <label for="remember_me" class="text-blue-950 text-sm">Beni Hatırla</label>
                 </div>
 
                 <div class="mb-4 flex items-center">
                     <input type="checkbox" id="not_a_robot" name="not_a_robot" class="mr-2">
-                    <label for="not_a_robot" class="text-gray-700 text-sm ">Robot Değilim</label>
+                    <label for="not_a_robot" class="text-blue-950 text-sm">Robot Değilim</label>
                 </div>
 
-                <a href="/panel/home" type="submit" class="w-full text-white font-bold p-2 rounded-md bg-orange-500 text-center">Giriş Yap</a>
+                <div class="text-center">
+                        <a href="/panel/home" type="submit" class="w-3/4 text-white text-lg text-bold font-bold p-1 rounded-md shadow-sm bg-gradient-to-b from-orange-400 to-red-600 hover:from-orange-500 hover:to-red-600">Giriş</a>
+                </div>
 
                 <div class="text-center">
-                    <div class="p-1">
-                        <a href="#" class="text-xs">Şifremi Unuttum</a>
+                    <div class="p-2">
+                        <a href="#" class="text-blue-950 text-sm hover:text-orange-500">Şifremi Unuttum</a>
                     </div>
                 </div>
 

@@ -21,3 +21,7 @@
     display: grid;
     align-items: center;
 }
+
+.w-3/4 {
+    width: 75%;
+}
