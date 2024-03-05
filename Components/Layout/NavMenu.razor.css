@@ -3,9 +3,9 @@
 }
 
 .nav-item ::deep a.active {
-    color: darkorange;
+    color: #f97316;
 }
 
 .nav-item ::deep .nav-link:hover {
-    color: orange;
+    color: #fb923c;
 }
