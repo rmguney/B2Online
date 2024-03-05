@@ -3,7 +3,7 @@
 }
 
 .nav-item ::deep a.active {
-    color: orange;
+    color: darkorange;
 }
 
 .nav-item ::deep .nav-link:hover {

@@ -10,8 +10,8 @@
     z-index: 1000;
 }
 
-1#blazor-error-ui .dismiss {
-    ursor: pointer;
+#blazor-error-ui .dismiss {
+    cursor: pointer;
     position: absolute;
     right: 0.75rem;
     top: 0.5rem;
