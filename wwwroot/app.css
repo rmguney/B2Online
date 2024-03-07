@@ -6,6 +6,10 @@ html, body {
     background-attachment: fixed;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 .valid.modified:not([type=checkbox]) {
     outline: 2px solid orange;
 }
