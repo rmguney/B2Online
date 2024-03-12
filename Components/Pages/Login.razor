@@ -18,22 +18,23 @@
             <form>
                 <div class="py-8">
                     <label for="username" class="block text-blue-950 text-md mb-1">Kullanıcı Adı</label>
-                    <input type="text" id="username" name="username" class="p-2 block w-full rounded-md shadow-sm focus:outline-orange-500">
+                    <input type="text" id="username" class="p-2 block w-full rounded-md shadow-sm focus:outline-orange-500">
                 </div>
 
                 <div class="mb-4">
                     <label for="password" class="block text-blue-950 text-md mb-1">Şifre</label>
-                    <input type="password" id="password" name="password" class="p-2 block w-full rounded-md shadow-sm focus:outline-orange-500">
+                    <input type="password" id="password" class="p-2 block w-full rounded-md shadow-sm focus:outline-orange-500">
                 </div>
                 
                 <div class="mb-2 flex items-center">
-                    <input type="checkbox" id="remember_me" name="remember_me" class="mr-2">
+                    <input type="checkbox" id="remember_me" class="mr-2">
                     <label for="remember_me" class="text-blue-950 text-sm">Beni Hatırla</label>
                 </div>
 
-                <div class="mb-4 flex items-center">
-                    <input type="checkbox" id="not_a_robot" name="not_a_robot" class="mr-2">
-                    <label for="not_a_robot" class="text-blue-950 text-sm">Robot Değilim</label>
+                @*anti-bot için honeypot alanı*@
+                <div class="mb-4 flex items-center hidden">
+                    <input type="checkbox" id="robot" class="mr-2">
+                    <label for="not_a_robot" class="text-blue-950 text-sm"></label>
                 </div>
 
                 <div class="text-center">
@@ -43,6 +44,9 @@
                 <div class="text-center">
                     <div class="p-2">
                         <a href="#" class="text-blue-950 text-sm hover:text-orange-500">Şifremi Unuttum</a>
+                    </div>
+                    <div class="md-2 hidden" id="pass_alert">
+                            <h1 class="text-orange-500 text-sm">Lütfen kullanıcı adınızı girdikten sonra Şifremi Unuttum'a tıklayınız. Şifre sıfırlama talimatlarını kullanıcı adınıza bağlı e-posta adresinize göndereceğiz.</h1>
                     </div>
                 </div>
             </form>
