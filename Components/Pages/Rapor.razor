@@ -2,6 +2,71 @@
 @layout Components.Layout.MainLayout
 <PageTitle>OMNIA</PageTitle>
 
-<h3 class="text-xl lg:text-4xl text-blue-950 font-bold text-center p-4 mb-8">
+<h3 class="text-xl lg:text-4xl text-blue-950 font-bold text-center p-4">
     Teslimat Raporları
 </h3>
+
+<form class="flex flex-col lg:flex-row px-4" @submit="SubmitForm">
+    <div class="mb-2 lg:mb-0 lg:mr-4">
+        <select class="text-blue-950 rounded-md shadow-md focus:outline-orange-500 p-2 w-full text-sm">
+            <option selected disabled>Teslimat Raporları</option>
+            <option>Teslimat Raporu</option>
+            <option>İade Raporu</option>
+            <option>Aylık Teslimat Raporu</option>
+            <option>Günlük Teslimat Raporu</option>
+            <option>Teslim Edilemeyenler</option>
+            <option>Dağıtımda Olanlar</option>
+        </select>
+    </div>
+
+    <div class="mb-2 lg:mb-0 lg:mr-4">
+        <select class="text-blue-950 rounded-md shadow-md focus:outline-orange-500 p-2 w-full text-sm">
+            <option selected disabled>Fatura Raporları</option>
+            <option>Fatura Listesi</option>
+            <option>Fatura Detay Raporu</option>
+            <option>Fatura Hakediş Raporu</option>
+            <option>Ürün Bazlı Fatura Raporu</option>
+            <option>Özel Fatura Detay Raporu</option>
+            <option>Elleçleme Detay Raporu</option>
+            <option>Cari Ekstre</option>
+        </select>
+    </div>
+    <div class="mb-2 lg:mb-0 lg:mr-4">
+        <select class="text-blue-950 rounded-md shadow-md focus:outline-orange-500 p-2 w-full text-sm">
+            <option selected disabled>Filo Yönetim Raporları</option>
+            <option>Akayaryakıt Alım Raporu</option>
+            <option>Toplam Akaryakıt Alım</option>
+            <option>Günlük KM Raporu</option>
+            <option>Yakıt Fark Raporu</option>
+        </select>
+    </div>
+    <button class="shadow-md rounded-md bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 text-white font-bold lg:px-8 px-1 py-1 mb-4 lg:mb-0 text-md text-sm" type="submit">Sorgula</button>
+    <div class="flex flex-row items-center lg:ml-auto -mb-2 lg:mb-0">
+        <div class="px-1">
+            <button class="shadow-md rounded-md bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 text-white font-bold text-sm lg:text-md lg:px-8 px-1 py-1">Excel</button>
+        </div>
+
+        <div class="px-1">
+            <button class="shadow-md rounded-md bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 text-white font-bold text-sm lg:text-md lg:px-8 px-1 py-1">PDF</button>
+        </div>
+
+        <div class="px-1">
+            <button class="shadow-md rounded-md bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 text-white font-bold text-sm lg:text-md lg:px-8 px-1 py-1">Yazdır</button>
+        </div>
+
+        <div class="px-1">
+            <button class="shadow-md rounded-md bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 text-white font-bold text-sm lg:text-md lg:px-8 px-1 py-1">Ekleri Gör</button>
+        </div>
+    </div>
+</form>
+
+
+
+<div class="flex flex-col p-4">
+    <div class="bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 p-2 px-4 text-white font-bold">
+        hhh
+    </div>
+    <div class="bg-white shadow-md p-4 text-sm">
+        tablo
+    </div>
+</div>
