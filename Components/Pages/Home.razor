@@ -1,7 +1,9 @@
 ﻿@page "/panel/home"
 @layout Components.Layout.MainLayout
+@attribute [StreamRendering(true)]
 @rendermode InteractiveServer
-@inject IJSRuntime JSRuntime
+<link href="_content/DevExpress.Blazor.Themes/bootstrap-external.bs5.min.css" rel="stylesheet" asp-append-version="true" />
+
 <PageTitle>OMNIA</PageTitle>
 
 <div class="lg:flex-col justify-center">
@@ -14,7 +16,7 @@
                 -
             </h3>
             <h3 class="text-xl lg:text-4xl text-orange-500 font-bold">
-                {customerName}
+                {CustomerName}
             </h3>
             <h3 class="text-xl lg:text-4xl text-blue-950 font-bold">
                 !
@@ -51,7 +53,7 @@
                 </h1>
             </div>
 
-            <div class="bg-white shadow-md">
+            <div class="bg-white shadow-md w-full">
                 <div class="flex flex-col lg:flex-row">
                     <div class="flex flex-row lg:flex-col">
                         <div class="flex flex-col lg:py-12 lg:mb-8 px-1 lg:px-4">
@@ -88,16 +90,25 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col w-full">
+                    <div class="flex flex-col p-2 w-full">
                         <div class="bg-white">
                             <div class="lg:pt-2 px-4">
-                                <div id="bar-chart">
-                                </div>
+                                <DxChart Data="@deliveries">
+                                    <DxChartLegend HorizontalAlignment="HorizontalAlignment.Right" />
+                                    <DxChartTooltip Enabled="true"
+                                                    Position="RelativePosition.Outside">
+                                    </DxChartTooltip>
+                                    <DxChartBarSeries ArgumentField="@((SampleData i) => i.Date)"
+                                                      ValueField="@((SampleData i) => i.Delivery)"
+                                                      Name="Son 12 Aydaki Teslimatlarınız">
+                                        <DxChartSeriesLabel Visible="false" />
+                                    </DxChartBarSeries>
+                                </DxChart>
                             </div>
                         </div>
 
-                        <div class="px-2">
-                            <table class="min-w-full bg-white mb-1">
+                        <div class="p-2">
+                            <table class="w-full bg-white mb-1">
                                 <thead class="bg-white text-blue-950">
                                     <tr>
                                         <td class="text-center md-4 px-2 lg:text-md text-sm font-bold">ATF No</td>
@@ -109,64 +120,52 @@
 
                                 <tbody class="text-blue-950 bg-slate-50">
                                     <tr class="bg-slate-50 clickable" onclick="window.location='/panel/durum';">
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
                                     <tr class="bg-white clickable" onclick="window.location='/panel/durum';">
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
                                     <tr class="bg-slate-50 clickable" onclick="window.location='/panel/durum';">
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
                                     <tr class="bg-white clickable" onclick="window.location='/panel/durum';">
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
                                     <tr class="bg-slate-50 clickable" onclick="window.location='/panel/durum';">
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
                                     <tr class="bg-white clickable" onclick="window.location='/panel/durum';">
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
                                     <tr class="bg-slate-50 clickable" onclick="window.location='/panel/durum';">
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
                                     <tr class="bg-white clickable" onclick="window.location='/panel/durum';">
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                    </tr>
-                                    <tr class="bg-slate-50 clickable" onclick="window.location='/panel/durum';">
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                    </tr>
-                                    <tr class="bg-white clickable" onclick="window.location='/panel/durum';">
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
-                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor...</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                                        <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -179,11 +178,40 @@
 </div>
 
 @code {
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private SampleData[] deliveries;
+
+    protected override void OnInitialized()
     {
-        if (firstRender)
-        {
-            await JSRuntime.InvokeVoidAsync("renderChart");
-        }
+        deliveries = GetDelivery();
     }
+
+    public class SampleData
+    {
+        public DateTime Date { get; set; }
+        public int Delivery { get; set; }
+    }
+
+    public SampleData[] GetDelivery()
+    {
+        var deliveries = new List<SampleData>();
+        for (int i = 0; i < 12; i++)
+        {
+            var date = DateTime.Today.AddMonths(-i);
+            var delivery = new SampleData()
+                {
+                    Date = date,
+                    Delivery = RandomDelivery()
+                };
+
+            deliveries.Add(delivery);
+        }
+        return deliveries.ToArray();
+    }
+
+    private int RandomDelivery()
+    {
+        Random random = new Random();
+        return random.Next(10, 21);
+    }
+
 }

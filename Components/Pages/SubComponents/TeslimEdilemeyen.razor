@@ -1,0 +1,230 @@
+﻿@page "/panel/rapor/TeslimEdilemeyen"
+@layout Components.Layout.RaporLayout
+@attribute [StreamRendering(true)]
+@rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
+@using DevExpress.Export
+@using System.Text.Json
+<PageTitle>OMNIA</PageTitle>
+
+<div>
+    <div class="flex flex-col lg:flex-row px-4 mb-2">
+        <div class="flex flex-col">
+            <label class="text-blue-950 text-sm mt-2">Başlangıç Tarihi</label>
+            <InputDate @bind-Value="dateTimeValue" Converter="new DateTimeConverter()" class="shadow-md p-1 rounded-md text-sm hover:shadow-sm focus:outline-orange-500"></InputDate>
+        </div>
+
+        <div class="flex flex-col lg:px-4 mb-2">
+            <label class="text-blue-950 text-sm mt-2">Bitiş Tarihi</label>
+            <InputDate @bind-Value="dateTimeValue2" Converter="new DateTimeConverter()" class="shadow-md p-1 rounded-md text-sm hover:shadow-sm focus:outline-orange-500"></InputDate>
+        </div>
+
+        <div class="flex flex-col">
+
+            <label class="text-blue-950 text-sm lg:mt-2">Firma Adı</label>
+            <div class="flex flex-col lg:flex-row lg:items-center">
+                <div id="dropdown-overview-target-container">
+                    <DxButton CssClass="dx-button"
+                              Click="() => IsOpen = !IsOpen"
+                              RenderStyle="@ButtonRenderStyle.Secondary">Firma Seçiniz</DxButton>
+                </div>
+
+                <button class="mt-8 lg:mt-0 lg:ml-4 shadow-md hover:shadow-sm rounded-md bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950  text-white hover:text-blue-950 hover:from-white font-bold lg:px-8 px-2 py-1 mb-4 lg:mb-0 text-sm" type="submit">Sorgula</button>
+
+                <DxDropDown @bind-IsOpen="@IsOpen"
+                            HeaderVisible="false"
+                            BodyText="@Constants.Content"
+                            PositionMode="DropDownPositionMode.Bottom"
+                            Width="max(25vw, 250px)"
+                            PositionTarget="#dropdown-overview-target-container"
+                            RestrictionTarget="#Navigation-DropDown-Overview"
+                            CloseMode="DropDownCloseMode.Close"
+                            PreventCloseOnPositionTargetClick="true">
+                </DxDropDown>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<DxGrid @ref="Grid"
+        ShowSearchBox="true"
+        CustomizeElement="Grid_CustomizeElement"
+        Data="@sampleDates"
+        ShowGroupPanel="true"
+        ColumnResizeMode="GridColumnResizeMode.NextColumn"
+        AutoExpandAllGroupRows="false"
+        PageSizeSelectorVisible="true"
+        PageSizeSelectorItems="@(new int[] { 10, 20, 50, 100 })"
+        KeyboardNavigationEnabled="true"
+        LayoutAutoLoading="Grid_LayoutAutoLoading"
+        LayoutAutoSaving="Grid_LayoutAutoSaving">
+    <Columns>
+
+        @* kolonlar *@
+
+        <DxGridDataColumn Caption="ATF Tarihi" FieldName="Date" Width="150" MinWidth="100" />
+        <DxGridDataColumn Caption="Kolon" FieldName="" Width="150" MinWidth="100" />
+
+    </Columns>
+    <ToolbarTemplate>
+        <DxToolbar>
+            <DxToolbarItem Text="PDF" Click="ExportPdf_Click" />
+            <DxToolbarItem Text="XLSX" Click="ExportXlsx_Click" />
+            <DxToolbarItem Text="XLS" Click="ExportXls_Click" />
+            <DxToolbarItem Text="CSV" Click="ExportCsv_Click" />
+            <DxToolbarItem Text="Yazdır" Click="Print_Click" />
+        </DxToolbar>
+    </ToolbarTemplate>
+</DxGrid>
+@code {
+
+    //tarih
+
+    DateTime dateTimeValue { get; set; } = DateTime.Now;
+    DateTime dateTimeValue2 { get; set; } = DateTime.Now;
+
+    //firma dropdown
+
+    bool IsOpen { get; set; } = false;
+    private bool showDropdown = false;
+
+    private void ToggleDropdown()
+    {
+        showDropdown = !showDropdown;
+    }
+
+    // random data başlangıç
+
+    private List<SampleDate> sampleDates;
+
+    protected override async Task OnInitializedAsync()
+    {
+        sampleDates = GenerateRandomSampleDates().ToList();
+    }
+
+    public static class Constants
+    {
+        public static string Content = "Firmalar";
+    }
+
+    private IEnumerable<SampleDate> GenerateRandomSampleDates()
+    {
+        var random = new Random();
+        for (int i = 0; i < 51; i++)
+        {
+            yield return new SampleDate
+                {
+                    Date = DateTime.Now.AddDays(random.Next(-80, 0)),
+                };
+        }
+    }
+
+    public class SampleDate
+    {
+        public DateTime Date { get; set; }
+    }
+
+    // random data bitiş
+
+    // grid declrationları
+
+    GridColumnResizeMode ColumnResizeMode { get; set; } = GridColumnResizeMode.NextColumn;
+    IEnumerable<object> Data { get; set; }
+    IGrid Grid { get; set; }
+
+    void Grid_CustomizeElement(GridCustomizeElementEventArgs e)
+    {
+        if (e.ElementType == GridElementType.DataRow)
+        {
+            e.CssClass = "dx-rows";
+        }
+        if (e.ElementType == GridElementType.HeaderRow || e.ElementType == GridElementType.GroupPanelHeader)
+        {
+            e.CssClass = "dx-header";
+        }
+    }
+
+    // exportlar
+
+    async Task ExportXlsx_Click()
+    {
+        await Grid.ExportToXlsxAsync("ExportResult", new GridXlExportOptions()
+            {
+                CustomizeCell = OnCustomizeCell
+            });
+    }
+
+    async Task ExportXls_Click()
+    {
+        await Grid.ExportToXlsAsync("ExportResult", new GridXlExportOptions()
+            {
+                CustomizeCell = OnCustomizeCell
+            });
+    }
+    async Task ExportCsv_Click()
+    {
+        await Grid.ExportToCsvAsync("ExportResult", new GridCsvExportOptions()
+            {
+                CustomizeCell = OnCustomizeCell
+
+            });
+    }
+
+    async Task ExportPdf_Click()
+    {
+        // pdf logic
+    }
+
+    async Task Print_Click()
+    {
+        // print logic
+
+    }
+
+    void OnCustomizeCell(GridExportCustomizeCellEventArgs args)
+    {
+        if (args.ColumnFieldName == "ContactName" && args.AreaType == SheetAreaType.DataArea)
+            args.Formatting.Font = new XlCellFont() { Italic = true };
+        args.Handled = true;
+    }
+
+    // rapor tasarım ve json kayıt
+
+    const string LocalStorageKey = "Grid-LayoutPersistence-Data";
+
+    async Task Grid_LayoutAutoLoading(GridPersistentLayoutEventArgs e)
+    {
+        e.Layout = await LoadLayoutFromLocalStorageAsync();
+    }
+
+    async Task Grid_LayoutAutoSaving(GridPersistentLayoutEventArgs e)
+    {
+        await SaveLayoutToLocalStorageAsync(e.Layout);
+    }
+
+    async Task<GridPersistentLayout> LoadLayoutFromLocalStorageAsync()
+    {
+        try
+        {
+            var json = await JSRuntime.InvokeAsync<string>("localStorage.getItem", LocalStorageKey);
+            return JsonSerializer.Deserialize<GridPersistentLayout>(json);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    async Task SaveLayoutToLocalStorageAsync(GridPersistentLayout layout)
+    {
+        try
+        {
+            var json = JsonSerializer.Serialize(layout);
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", LocalStorageKey, json);
+        }
+        catch
+        {
+        }
+    }
+}

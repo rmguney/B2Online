@@ -1,19 +1,25 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script src="scripts/barChart.js"></script>
-    <link rel="stylesheet" href="app.css"/>
-    <link rel="stylesheet" href="B2Online.styles.css"/>
-    <link rel="icon" type="image/png" href="favicon.png"/>
+    @DxResourceManager.RegisterScripts()
+    <link href="B2Online.styles.css" rel="stylesheet" />
+    <link href="css/site.css" rel="stylesheet" />
+    <link href="css/output.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <HeadOutlet />
 </head>
 <body>
-    <Routes/>
+    <Routes></Routes>
     <script src="_framework/blazor.web.js"></script>
-    <script src="scripts/dragDisabler.js"></script>
+    <script>
+        window.addEventListener('dragstart', function (e) {
+            if (e.target.tagName.toLowerCase() === 'img') {
+                e.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,7 +1,164 @@
 ﻿@page "/panel/istatistik"
 @layout Components.Layout.MainLayout
+@attribute [StreamRendering(true)]
+@rendermode InteractiveServer
 <PageTitle>OMNIA</PageTitle>
+<link href="_content/DevExpress.Blazor.Themes/bootstrap-external.bs5.min.css" rel="stylesheet" asp-append-version="true" />
 
-<h3 class="text-xl lg:text-4xl text-blue-950 font-bold text-center p-4 mb-8">
+<h3 class="text-xl lg:text-4xl text-blue-950 font-bold text-center px-4 mt-4">
     Teslimat İstatistikleri
 </h3>
+
+<div class="p-4 flex flex-col">
+    <div class="w-full bg-white shadow-md mb-4">
+
+        <div class="bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950">
+            <h1 class="text-white text-lg text-center py-4 px-2">
+                Son 30 Gündeki Teslimatlarınız
+            </h1>
+        </div>
+
+        <div class="py-4">
+            <DxChart Data="@deliveries">
+                <DxChartLegend HorizontalAlignment="HorizontalAlignment.Right" />
+                <DxChartTooltip Enabled="true"
+                                Position="RelativePosition.Outside">
+                </DxChartTooltip>
+                <DxChartStackedBarSeries ArgumentField="@((SampleData i) => i.Date)"
+                                         ValueField="@((SampleData i) => i.Delivery)"
+                                         Name="Teslim Edilenler">
+                    <DxChartSeriesLabel Visible="false" />
+                </DxChartStackedBarSeries>
+                <DxChartStackedBarSeries ArgumentField="@((SampleData i) => i.Date2)"
+                                         ValueField="@((SampleData i) => i.Delivery5)"
+                                         Color="@System.Drawing.Color.Indigo"
+                                         Name="Teslim Edilmeyi Bekleyenler">
+                    <DxChartSeriesLabel Visible="false" />
+                </DxChartStackedBarSeries>
+            </DxChart>
+        </div>
+
+    </div>
+    <div class="w-full bg-white shadow-md">
+
+        <div class="bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950">
+            <h1 class="text-white text-lg text-center py-4 px-2">
+                Son 30 Gündeki Teslimatlarınızın Dağıtım Durumu
+            </h1>
+        </div>
+
+        <div class="py-4">
+            <DxChart Data="@deliveries">
+                <DxChartLegend HorizontalAlignment="HorizontalAlignment.Right" />
+                <DxChartTooltip Enabled="true"
+                                Position="RelativePosition.Outside">
+                </DxChartTooltip>
+                <DxChartStackedBarSeries ArgumentField="@((SampleData i) => i.Date)"
+                                         ValueField="@((SampleData i) => i.Delivery2)"
+                                         Name="Mal Kabulü Yapılmış">
+                    <DxChartSeriesLabel Visible="false" />
+                </DxChartStackedBarSeries>
+                <DxChartStackedBarSeries ArgumentField="@((SampleData i) => i.Date2)"
+                                         ValueField="@((SampleData i) => i.Delivery3)"
+                                         Color="@System.Drawing.Color.Indigo"
+                                         Name="Dağıtım Deposuna Gönderilen">
+                    <DxChartSeriesLabel Visible="false" />
+                </DxChartStackedBarSeries>
+                <DxChartStackedBarSeries ArgumentField="@((SampleData i) => i.Date2)"
+                                         ValueField="@((SampleData i) => i.Delivery4)"
+                                         Color="@System.Drawing.Color.Purple"
+                                         Name="Dağıtım Deposunda">
+                    <DxChartSeriesLabel Visible="false" />
+                </DxChartStackedBarSeries>
+                <DxChartStackedBarSeries ArgumentField="@((SampleData i) => i.Date2)"
+                                         ValueField="@((SampleData i) => i.Delivery4)"
+                                         Color="@System.Drawing.Color.Thistle"
+                                         Name="Dağıtımda">
+                    <DxChartSeriesLabel Visible="false" />
+                </DxChartStackedBarSeries>
+
+            </DxChart>
+        </div>
+
+    </div>
+</div>
+
+
+@code {
+    private SampleData[] deliveries;
+
+    protected override void OnInitialized()
+    {
+        deliveries = GetDeliveryBasedOnDays();
+    }
+
+    public class SampleData
+    {
+        public DateTime Date { get; set; }
+        public DateTime Date2 { get; set; }
+        public int Delivery { get; set; }
+        public int Delivery2 { get; set; }
+        public int Delivery3 { get; set; }
+        public int Delivery4 { get; set; }
+        public int Delivery5 { get; set; }
+        public int Delivery6 { get; set; }
+    }
+
+    public SampleData[] GetDeliveryBasedOnDays()
+    {
+        var deliveries = new List<SampleData>();
+        for (int i = 0; i < 30; i++)
+        {
+            var date = DateTime.Today.AddDays(-i * 1);
+            var date2 = DateTime.Today.AddDays(-i / 1);
+
+            var delivery = new SampleData()
+                {
+                    Date = date,
+                    Date2 = date2,
+                    Delivery = RandomDelivery(),
+                    Delivery2 = RandomDelivery2(),
+                    Delivery3 = RandomDelivery2(),
+                    Delivery4 = RandomDelivery4(),
+                    Delivery5 = RandomDelivery5(),
+                    Delivery6 = Delivery6(),
+
+                };
+
+            deliveries.Add(delivery);
+        }
+        return deliveries.ToArray();
+    }
+
+    Random random = new Random();
+
+    private int RandomDelivery()
+    {
+        return random.Next(5, 15);
+    }
+
+    private int RandomDelivery2()
+    {
+        return random.Next(0, 2);
+    }
+
+    private int RandomDelivery3()
+    {
+        return random.Next(0, 3);
+    }
+
+    private int RandomDelivery4()
+    {
+        return random.Next(0, 4);
+    }
+
+    private int RandomDelivery5()
+    {
+        return random.Next(0, 5);
+    }
+
+    private int Delivery6()
+    {
+        return RandomDelivery2() + RandomDelivery3() + RandomDelivery4() + RandomDelivery5();
+    }
+}
