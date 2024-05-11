@@ -1,0 +1,11 @@
+﻿.nav-item ::deep a {
+    color: white;
+}
+
+    .nav-item ::deep a.active {
+        color: #f97316;
+    }
+
+.nav-item ::deep .nav-link:hover {
+    color: #fdba74;
+}

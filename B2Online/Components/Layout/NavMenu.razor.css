@@ -9,3 +9,88 @@
 .nav-item ::deep .nav-link:hover {
     color: #fdba74;
 }
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    z-index: 999999 !important;
+}
+
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: #172554;
+        color: #fb923c;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        left: 165%;
+        transform: translate(0, -50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 999999 !important;
+    }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 100%;
+            margin-top: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent #172554 transparent transparent;
+            z-index: 999999 !important;
+        }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+        z-index: 999999 !important;
+    }
+
+
+.tooltip2 {
+    position: relative;
+    display: inline-block;
+    z-index: 999999 !important;
+}
+
+    .tooltip2 .tooltiptext2 {
+        visibility: hidden;
+        width: 120px;
+        background-color: #172554;
+        color: #fb923c;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+        position: absolute;
+        z-index: 1;
+        top: 35%;
+        left: 110%;
+        transform: translate(0, -50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 999999 !important;
+    }
+
+        .tooltip2 .tooltiptext2::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 100%;
+            margin-top: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent #172554 transparent transparent;
+            z-index: 999999 !important;
+        }
+
+    .tooltip2:hover .tooltiptext2 {
+        visibility: visible;
+        opacity: 1;
+        z-index: 999999 !important;
+    }

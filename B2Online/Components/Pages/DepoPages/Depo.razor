@@ -1,5 +1,5 @@
-﻿@page "/panel/home"
-@layout Components.Layout.MainLayout
+﻿@page "/panel/depo"
+@layout Components.Layout.MainLayoutDepo
 @attribute [StreamRendering(true)]
 @rendermode InteractiveServer
 <link href="_content/DevExpress.Blazor.Themes/bootstrap-external.bs5.min.css" rel="stylesheet" asp-append-version="true" />
@@ -7,10 +7,10 @@
 <PageTitle>OMNIA</PageTitle>
 
 <div class="lg:flex-col justify-center">
-    <div class="flex flex-col text-center p-4">
+    <div class="flex flex-col text-center p-6">
         <div class="flex flex-row justify-center">
             <h3 class="text-xl lg:text-4xl text-blue-950 font-bold">
-                Hoşgeldiniz
+                Depo işlemlerinizi yapmaya başlayabiliriz
             </h3>
             <h3 class="text-xl lg:text-4xl text-white">
                 -
@@ -22,71 +22,89 @@
                 !
             </h3>
         </div>
-
-        <h1 class="text-lg lg:text-xl text-blue-950 font-bold">
-            Size nasıl yardımcı olabilirim?
-        </h1>
     </div>
 
     <div class="flex justify-center flex-col lg:flex-row">
+
         <div class="flex flex-col px-4 w-full lg:w-1/3 mb-4">
             <div class="bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950">
                 <h1 class="text-white text-lg text-center py-4 px-2 font-bold">
-                    ATF ya da irsaliye numaranızla hızlı sorgulama yapabilirsiniz
+                    Hızlı rapor sorgulaması yapabilirsiniz
                 </h1>
             </div>
 
-            <AtfTarayici ATFSeriLabel="ATF Seri No"
-                         ATFLabel="ATF No"
-                         IrsaliyeLabel="İrsaliye No"
-                         TeslimatDurumu="ATF ya da irsaliye numaranızı giriniz"
-                         Gonderen=""
-                         Alici=""
-                         Koli=""
-                         KGDesi=""
-                         UrunGrubu="" />
+            <div class="bg-white shadow-md w-full">
+                <div class="p-4">
+
+                    <div class="bg-slate-50 p-2">
+                        <h3 class="">
+                            Sipariş Giriş
+                        </h3>
+                    </div>
+                    <div class="mb-4">
+                        <h3>
+                            Toplu Sipariş Aktarım
+                        </h3>
+                    </div>
+                    <div class="mb-4">
+                        <h3>
+                            Depo - Ürün / SKY Bazlı
+                        </h3>
+                    </div>
+                    <div class="mb-4">
+                        <h3>
+                            Depo Stok Raporu
+                        </h3>
+                    </div>
+                    <div class="">
+                        <h3>
+                            Ürün Hareket Raporu
+                        </h3>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="flex flex-col px-4 lg:px-0 lg:mr-4 mb-4 w-full lg:w-2/3">
+        <div class="flex flex-col px-4 lg:px-0 lg:mr-4 mb-4 w-full">
             <div class="bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950">
                 <h1 class="text-lg text-white text-center py-4 px-2 font-bold">
-                    Veya son teslimatlarınızı görüntüleyebilir, hızlıca istatistiklerinize göz atabilirsiniz
+                    Veya SKT'si yaklaşan ürünlerinizi görüntüleyebilirsiniz
                 </h1>
             </div>
 
             <div class="bg-white shadow-md w-full">
                 <div class="flex flex-col lg:flex-row">
                     <div class="flex flex-row lg:flex-col">
-                        <div class="flex flex-col lg:py-12 lg:mb-8 px-1 lg:px-4">
+                        <div class="flex flex-col lg:py-12 lg:mb-8 px-1 lg:ml-4">
                             <h1 class="text-center text-lg lg:text-5xl text-violet-950 font-bold mb-1">
                                 99
                             </h1>
                             <h1 class="text-center text-xs lg:text-md text-violet-950 font-bold">
-                                Mal Kabulü Yapılmış Teslimat
+                                Depoda Bulunan Koli ve Palet
                             </h1>
                         </div>
-                        <div class="flex flex-col lg:mb-20 px-1 lg:px-4">
+                        <div class="flex flex-col lg:mb-20 px-1 lg:ml-4">
                             <h1 class="text-center text-lg lg:text-5xl text-violet-950 font-bold mb-1">
                                 99
                             </h1>
                             <h1 class="text-center text-xs lg:text-md text-violet-950 font-bold">
-                                Dağıtım Deposuna Gönderilen Teslimat
+                                Sisteme Yüklenmiş Açık
                             </h1>
                         </div>
-                        <div class="flex flex-col lg:mb-20 px-1 lg:px-4">
+                        <div class="flex flex-col lg:mb-20 px-1 lg:ml-4">
                             <h1 class="text-center text-lg lg:text-5xl text-violet-950 font-bold mb-1">
                                 99
                             </h1>
                             <h1 class="text-center text-xs lg:text-md text-violet-950 font-bold">
-                                Dağıtım Deposundaki Teslimat
+                                Toplam Sipariş (Çeki)
                             </h1>
                         </div>
-                        <div class="flex flex-col lg:mb-12 px-1 lg:px-4">
+                        <div class="flex flex-col lg:mb-12 px-1 lg:ml-4">
                             <h1 class="text-center text-lg lg:text-5xl text-violet-950 font-bold mb-1">
                                 99
                             </h1>
                             <h1 class="text-center text-xs lg:text-md text-violet-950 font-bold">
-                                Dağıtımdaki Teslimat
+                                Bugün Hazırlanmış Sipariş
                             </h1>
                         </div>
                     </div>
@@ -101,7 +119,7 @@
                                     </DxChartTooltip>
                                     <DxChartBarSeries ArgumentField="@((SampleData i) => i.Date)"
                                                       ValueField="@((SampleData i) => i.Delivery)"
-                                                      Name="Son 12 Aydaki Teslimatlarınız">
+                                                      Name="Son 12 Aydaki Stok Seviyeleriniz">
                                         <DxChartSeriesLabel Visible="false" />
                                     </DxChartBarSeries>
                                 </DxChart>
@@ -112,69 +130,69 @@
                             <table class="w-full bg-white mb-1">
                                 <thead class="bg-white text-blue-950">
                                     <tr>
-                                        <td class="text-center md-4 px-2 lg:text-md text-sm font-bold">ATF No</td>
-                                        <td class="text-center md-4 px-2 lg:text-md text-sm font-bold">ATF Tarihi</td>
-                                        <td class="text-center md-4 px-2 lg:text-md text-sm font-bold">Teslim Alan</td>
-                                        <td class="text-center md-4 px-2 lg:text-md text-sm font-bold">Statü</td>
+                                        <td class="text-center md-4 px-2 lg:text-md text-sm font-bold">Ürün Kodu</td>
+                                        <td class="text-center md-4 px-2 lg:text-md text-sm font-bold">Ürün Adı</td>
+                                        <td class="text-center md-4 px-2 lg:text-md text-sm font-bold">SKT</td>
+                                        <td class="text-center md-4 px-2 lg:text-md text-sm font-bold">Kalan Gün</td>
                                     </tr>
                                 </thead>
 
                                 <tbody class="text-blue-950 bg-slate-50">
-                                    <tr class="bg-slate-50 clickable" onclick="window.location='/panel/durum';">
+                                    <tr class="bg-slate-50 clickable" onclick="window.location='/panel/siparisler';">
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
-                                    <tr class="bg-white clickable" onclick="window.location='/panel/durum';">
+                                    <tr class="bg-white clickable" onclick="window.location='/panel/siparisler';">
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
-                                    <tr class="bg-slate-50 clickable" onclick="window.location='/panel/durum';">
+                                    <tr class="bg-slate-50 clickable" onclick="window.location='/panel/siparisler';">
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
-                                    <tr class="bg-white clickable" onclick="window.location='/panel/durum';">
+                                    <tr class="bg-white clickable" onclick="window.location='/panel/siparisler';">
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
-                                    <tr class="bg-slate-50 clickable" onclick="window.location='/panel/durum';">
+                                    <tr class="bg-slate-50 clickable" onclick="window.location='/panel/siparisler';">
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
-                                    <tr class="bg-white clickable" onclick="window.location='/panel/durum';">
+                                    <tr class="bg-white clickable" onclick="window.location='/panel/siparisler';">
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
-                                    <tr class="bg-slate-50 clickable" onclick="window.location='/panel/durum';">
+                                    <tr class="bg-slate-50 clickable" onclick="window.location='/panel/siparisler';">
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
-                                    <tr class="bg-white clickable" onclick="window.location='/panel/durum';">
+                                    <tr class="bg-white clickable" onclick="window.location='/panel/siparisler';">
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
-                                    <tr class="bg-slate-50 clickable" onclick="window.location='/panel/durum';">
+                                    <tr class="bg-slate-50 clickable" onclick="window.location='/panel/siparisler';">
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                     </tr>
-                                    <tr class="bg-white clickable" onclick="window.location='/panel/durum';">
+                                    <tr class="bg-white clickable" onclick="window.location='/panel/siparisler';">
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
                                         <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>

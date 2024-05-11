@@ -1,0 +1,286 @@
+﻿@using System.Collections.Generic
+@using DevExpress.Blazor
+@using DevExpress.Blazor.Internal
+@using System.Text.Json
+@inject IJSRuntime JSRuntime
+@attribute [StreamRendering(true)]
+@rendermode InteractiveServer
+<link href="_content/DevExpress.Blazor.Themes/bootstrap-external.bs5.min.css" rel="stylesheet" asp-append-version="true" />
+<div class="x-auto px-4 mb-4">
+
+    <h3 class="text-xl lg:text-4xl text-blue-950 font-bold text-center p-4">
+        Kullanıcı İşlemleri
+    </h3>
+
+    <div class="lg:w-3/5 mx-auto px-4 mb-4">
+        <div class="flex items-center justify-between bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 px-8 py-2">
+            <a href="panel/kullanici">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-white hover:text-orange-300">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                </svg>
+            </a>
+            <h1 class="text-lg text-white font-bold py-4 px-2">Firma Atama</h1>
+            <div></div>
+        </div>
+
+        <div class="bg-white shadow-md p-4">
+            <div class="pb-4">
+                <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Contained">
+                    <DxToolbarItem Text="Yeni" Click="NewItem_Click" IconCssClass="grid-toolbar-new" />
+                    <DxToolbarItem Text="Sil" Click="DeleteItem_Click" IconCssClass="grid-toolbar-delete" Enabled="EditItemsEnabled" />
+                    <DxToolbarItem Text="Seç" BeginGroup="true" Click="ColumnChooserItem_Click" IconCssClass="grid-toolbar-column-chooser" />
+                    <DxToolbarItem Text="İndir" IconCssClass="grid-toolbar-export">
+                        <Items>
+                            <DxToolbarItem Text="CSV" Click="ExportCsvItem_Click" />
+                            <DxToolbarItem Text="XLSX" Click="ExportXlsxItem_Click" />
+                            <DxToolbarItem Text="XLS" Click="ExportXlsItem_Click" />
+                        </Items>
+                    </DxToolbarItem>
+                </DxToolbar>
+            </div>
+
+            <div class="grid-container">
+                <DxGrid @ref="Grid"
+                        Data="DataSource"
+                        PageSize="10"
+                        ValidationEnabled="false"
+                        PopupEditFormCssClass="pw-800"
+                        FocusedRowEnabled="true"
+                        EditModelSaving="Grid_EditModelSaving"
+                        DataItemDeleting="Grid_DataItemDeleting"
+                        FocusedRowChanged="Grid_FocusedRowChanged"
+                        CustomizeEditModel="Grid_CustomizeEditModel"
+                        EditMode="@CurrentEditMode"
+                        ColumnResizeMode="GridColumnResizeMode.NextColumn"
+                        KeyboardNavigationEnabled="true"
+                        AllowSelectRowByClick="true">
+                    <Columns>
+                        <DxGridDataColumn Caption="Firma Adı" FieldName="CompanyName" Width="200" />
+                        <DxGridDataColumn Caption="Firma Kodu" FieldName="CompanyCode" Width="200" />
+                        <DxGridDataColumn Caption="Akaryakıt Firması" FieldName="OilProvider" Width="200" />
+                        <DxGridDataColumn Caption="Firma Vergi No" FieldName="TaxId" Width="200" />
+                        <DxGridDataColumn Caption="Firma Tipi" FieldName="CompanyType" Width="200" />
+                    </Columns>
+                    <EditFormTemplate Context="EditFormContext">
+                        @{
+                            var supplier = (Supplier)EditFormContext.EditModel;
+                        }
+                        <DxFormLayout CssClass="w-100">
+                            <DxFormLayoutItem Caption="Firma Adı" ColSpanMd="6">
+                                @EditFormContext.GetEditor("CompanyName")
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem Caption="Firma Kodu" ColSpanMd="6">
+                                @EditFormContext.GetEditor("CompanyCode")
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem Caption="Akayaryakıt Firması" ColSpanMd="6">
+                                @EditFormContext.GetEditor("OilProvider")
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem Caption="Vergi No" ColSpanMd="6">
+                                @EditFormContext.GetEditor("TaxId")
+                            </DxFormLayoutItem>
+
+                            <DxFormLayoutItem Caption="Firma Tipi" ColSpanMd="6">
+                                <DxComboBox Data="@CompanyTypes"
+                                            NullText="Select Company Type..."
+                                            FilteringMode="DataGridFilteringMode.Contains"
+                                            TextFieldName="CompanyName"
+                                            ValueFieldName="CompanyName"
+                                            Value="@supplier.CompanyType"
+                                            ValueChanged="(string newCellValue) => {
+                                                supplier.CompanyType = newCellValue;
+                                          }">
+                                </DxComboBox>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem Caption="Yetkili Kullanıcılar" ColSpanMd="6">
+                                <DxTagBox Data="@Employees"
+                                          AllowCustomTags="true"
+                                          @bind-Tags="@Tags"
+                                          @bind-Values="@Values"
+                                          HideValues="false">
+                                </DxTagBox>
+                            </DxFormLayoutItem>
+
+                        </DxFormLayout>
+                    </EditFormTemplate>
+                </DxGrid>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@code {
+
+    // Define Supplier and CompanyType classes
+    public class Supplier
+    {
+        public string CompanyName { get; set; }
+        public string CompanyCode { get; set; }
+        public string OilProvider { get; set; }
+        public string TaxId { get; set; }
+        public string CompanyType { get; set; }
+    }
+
+    public class CompanyType
+    {
+        public string CompanyName { get; set; }
+    }
+
+    IEnumerable<Supplier> DataSource { get; set; }
+    IEnumerable<CompanyType> CompanyTypes { get; set; }
+    IGrid Grid { get; set; }
+    bool UsePopupEditForm { get; set; }
+    GridEditMode CurrentEditMode { get { return UsePopupEditForm ? GridEditMode.PopupEditForm : GridEditMode.EditForm; } }
+    TaskCompletionSource<bool> DataLoadedTcs { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    const string ExportFileName = "ExportResult";
+    bool EditItemsEnabled { get; set; }
+    int FocusedRowVisibleIndex { get; set; }
+
+
+
+    void Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
+    {
+        FocusedRowVisibleIndex = args.VisibleIndex;
+        UpdateEditItemsEnabled(true);
+    }
+
+    void UpdateEditItemsEnabled(bool enabled)
+    {
+        EditItemsEnabled = enabled;
+    }
+
+
+    async Task NewItem_Click()
+    {
+        await Grid.StartEditNewRowAsync();
+    }
+
+
+    void DeleteItem_Click()
+    {
+        Grid.ShowRowDeleteConfirmation(FocusedRowVisibleIndex);
+    }
+
+    void ColumnChooserItem_Click(ToolbarItemClickEventArgs e)
+    {
+        Grid.ShowColumnChooser();
+    }
+
+    async Task ExportXlsxItem_Click()
+    {
+        await Grid.ExportToXlsxAsync(ExportFileName);
+    }
+
+    async Task ExportXlsItem_Click()
+    {
+        await Grid.ExportToXlsAsync(ExportFileName);
+    }
+
+    async Task ExportCsvItem_Click()
+    {
+        await Grid.ExportToCsvAsync(ExportFileName);
+    }
+    async Task UsePopupEditForm_CheckedChanged(bool value)
+    {
+        UsePopupEditForm = value;
+        await Grid.CancelEditAsync();
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        // Suppliers
+        DataSource = new List<Supplier>
+        {
+            new Supplier { CompanyName = "B2 Cargo", CompanyCode = "1111", OilProvider = "Total", TaxId = "123456789", CompanyType = "Nakliye" },
+            new Supplier { CompanyName = "Navis Kurumsal", CompanyCode = "2222", OilProvider = "Shell", TaxId = "987654321", CompanyType = "Tedarikçi" }
+
+        };
+
+        // CompanyTypes
+        CompanyTypes = new List<CompanyType>
+        {
+            new CompanyType { CompanyName = "Nakliye" },
+            new CompanyType { CompanyName = "Tedarikçi" },
+            new CompanyType { CompanyName = "Müşteri" }
+
+        };
+
+        IEnumerable<string> Values;
+
+        DataLoadedTcs.TrySetResult(true);
+    }
+
+
+
+    void Grid_CustomizeEditModel(GridCustomizeEditModelEventArgs e)
+    {
+        if (e.IsNew)
+        {
+            var newSupplier = (Supplier)e.EditModel;
+            newSupplier.CompanyName = "B2 Cargo";
+            newSupplier.CompanyCode = "Navis Kurumsal";
+        }
+    }
+    async Task Grid_EditModelSaving(GridEditModelSavingEventArgs e)
+    {
+        if (e.IsNew)
+            await InsertSupplierAsync((Supplier)e.EditModel);
+        else
+            await UpdateSupplierAsync((Supplier)e.DataItem, (Supplier)e.EditModel);
+        await UpdateDataAsync();
+    }
+    async Task Grid_DataItemDeleting(GridDataItemDeletingEventArgs e)
+    {
+        await UpdateDataAsync();
+    }
+    async Task UpdateDataAsync()
+    {
+        // Update data here if required
+    }
+
+    // Dummy methods to handle data operations
+    Task InsertSupplierAsync(Supplier supplier)
+    {
+        // Insert logic here
+        return Task.CompletedTask;
+    }
+
+    Task UpdateSupplierAsync(Supplier oldSupplier, Supplier newSupplier)
+    {
+        // Update logic here
+        return Task.CompletedTask;
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await DataLoadedTcs.Task;
+            await Grid.StartEditRowAsync(0);
+        }
+    }
+    public void Dispose()
+    {
+        DataLoadedTcs.TrySetCanceled();
+    }
+
+}
+
+
+
+
+@code {
+    IEnumerable<string> Tags = new List<string>() {
+        "Employee1",
+        "Employee2"
+    };
+
+    IEnumerable<string> Employees = new List<string>() {
+        "London",
+        "Berlin",
+        "Paris",
+    };
+
+    IEnumerable<string> Values;
+}

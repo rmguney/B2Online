@@ -1,0 +1,12 @@
+.page {
+    display: flex;
+    flex-direction: row;
+}
+
+.content {
+    overflow: auto;
+}
+
+.group:hover .group-hover\:block {
+    display: block;
+}

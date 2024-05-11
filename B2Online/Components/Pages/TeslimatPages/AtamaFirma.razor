@@ -1,0 +1,340 @@
+﻿@page "/panel/firmaAtama"
+@layout Components.Layout.MainLayout
+<PageTitle>OMNIA</PageTitle>
+@using System.Text.Json
+@inject IJSRuntime JSRuntime
+@attribute [StreamRendering(true)]
+@rendermode InteractiveServer
+<link href="_content/DevExpress.Blazor.Themes/bootstrap-external.bs5.min.css" rel="stylesheet" asp-append-version="true" />
+<div class="x-auto px-4 mb-4">
+
+    <h3 class="text-xl lg:text-4xl text-blue-950 font-bold text-center p-4">
+        Kullanıcı İşlemleri
+    </h3>
+
+    <div class="lg:w-3/5 mx-auto px-4 mb-4">
+        <div class="flex items-center justify-between bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 px-8 py-2">
+            <a href="panel/kullanici">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-white hover:text-orange-300">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                </svg>
+            </a>
+            <h1 class="text-lg text-white font-bold py-2 px-2">Firma Atama</h1>
+            <div></div>
+        </div>
+        <div class="bg-white shadow-md p-4">
+            <div class="pb-2 w-full">
+                <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Contained">
+                    <DxToolbarItem Text="Yeni" Click="NewItem_Click" />
+                    <DxToolbarItem Text="Düzenle" Click="EditItem_Click" />
+                    <DxToolbarItem Text="Sil" Click="DeleteItem_Click" />
+                    <DxToolbarItem Text="Seç" BeginGroup="true" Click="ColumnChooserItem_Click" />
+                    <DxToolbarItem Text="İndir">
+                        <Items>
+                            <DxToolbarItem Text="CSV" Click="ExportCsvItem_Click" />
+                            <DxToolbarItem Text="XLSX" Click="ExportXlsxItem_Click" />
+                            <DxToolbarItem Text="XLS" Click="ExportXlsItem_Click" />
+                        </Items>
+                    </DxToolbarItem>
+                </DxToolbar>
+            </div>
+            <div class="grid-container">
+                <DxGrid @ref="Grid"
+                        Data="Data"
+                        FocusedRowEnabled="true"
+                        CustomizeElement="Grid_CustomizeElement"
+                        EditModelSaving="Grid_EditModelSaving"
+                        DataItemDeleting="Grid_DataItemDeleting"
+                        FocusedRowChanged="Grid_FocusedRowChanged"
+                        KeyboardNavigationEnabled="true">
+
+                    <Columns>
+                        <DxGridDataColumn FieldName="CompanyType" Caption="Firma Tipi" MinWidth="150" />
+                        <DxGridDataColumn FieldName="CompanyName" Caption="Firma Adı" MinWidth="150" />
+                        <DxGridDataColumn FieldName="CompanyCode" Caption="Firma Kodu" Width="50" />
+                        <DxGridDataColumn FieldName="OilProvider" Caption="Akayaryakıt Firması" MinWidth="150" />
+                        <DxGridDataColumn FieldName="TaxID" Caption="Vergi No" Width="50" />
+                        <DxGridDataColumn UnboundType="GridUnboundColumnType.Boolean" UnboundExpression="[ActiveCheck] <> Null"  Caption="Aktif?" Width="60" />
+                    </Columns>
+                    <EditFormTemplate Context="EditFormContext">
+                        <DxFormLayout CssClass="w-100">
+                            <DxFormLayoutItem Caption="Firma Adı" ColSpanMd="6">
+                                @EditFormContext.GetEditor("CompanyName")
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem Caption="Firma Kodu" ColSpanMd="6">
+                                @EditFormContext.GetEditor("CompanyCode")
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem Caption="Akayaryakıt Firması" ColSpanMd="6">
+                                @EditFormContext.GetEditor("OilProvider")
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem Caption="Vergi No" ColSpanMd="6">
+                                @EditFormContext.GetEditor("TaxID")
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem Caption="Firma Tipi" ColSpanMd="6">
+                                <DxComboBox Data="@Data3"
+                                            ListRenderMode="ListRenderMode.Virtual"
+                                            FilteringMode="DataGridFilteringMode.Contains"
+                                            TextFieldName="@nameof(CompanyType.CompanyTypeName)"
+                                            @bind-Value="@Value"
+                                            CssClass="cw-480"
+                                            InputId="cbVirtualScrolling" />
+                            </DxFormLayoutItem>
+
+                            <DxFormLayoutItem Caption="Aktif?" ColSpanMd="6">
+                                @EditFormContext.GetEditor("ActiveCheck")
+
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem Caption="Yetkililer" ColSpanMd="12">
+                                <DxTagBox Data="@Data2"
+                                          TextFieldName="@nameof(EditableEmployee.Text)"
+                                          @bind-Values="@Values"
+                                          CssClass="cw-480"
+                                          AllowCustomTags="true"
+                                          ListRenderMode="ListRenderMode.Virtual"
+                                          InputId="tbTagTemplate" />
+                            </DxFormLayoutItem>
+                        </DxFormLayout>
+                    </EditFormTemplate>
+                </DxGrid>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@code {
+    const string ExportFileName = "ExportResult";
+    bool EditItemsEnabled { get; set; }
+    int FocusedRowVisibleIndex { get; set; }
+    EditableCompany[] Data { get; set; }
+    IGrid Grid { get; set; }
+
+    void Grid_CustomizeElement(GridCustomizeElementEventArgs e)
+    {
+        if (e.ElementType == GridElementType.DataRow)
+        {
+            e.CssClass = "dx-rows";
+        }
+        if (e.ElementType == GridElementType.HeaderRow || e.ElementType == GridElementType.GroupPanelHeader)
+        {
+            e.CssClass = "dx-header";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadGridDataAsync();
+        LoadEmployeeData();
+        Data3 = GetCompanyType();
+    }
+
+    async Task LoadGridDataAsync()
+    {
+        Data = CompanyData.Companies().ToArray();
+        Data3 = GetCompanyType();
+    }
+
+    void Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
+    {
+        FocusedRowVisibleIndex = args.VisibleIndex;
+        UpdateEditItemsEnabled(true);
+    }
+
+    void UpdateEditItemsEnabled(bool enabled)
+    {
+        EditItemsEnabled = enabled;
+    }
+
+    async Task Grid_DataItemDeleting(GridDataItemDeletingEventArgs e)
+    {
+        var CompanyToDelete = (EditableCompany)e.DataItem;
+        Data = Data.Where(emp => emp.CompanyID != CompanyToDelete.CompanyID).ToArray();
+        if (Data.Length == 0)
+            UpdateEditItemsEnabled(false);
+    }
+
+    async Task Grid_EditModelSaving(GridEditModelSavingEventArgs e)
+    {
+        if (e.IsNew)
+        {
+            var newCompany = (EditableCompany)e.EditModel;
+            newCompany.CompanyID = Data.Max(emp => emp.CompanyID) + 1;
+            Data = Data.Concat(new[] { newCompany }).ToArray();
+        }
+        else
+        {
+            var editedCompany = (EditableCompany)e.EditModel;
+            var index = Array.FindIndex(Data, emp => emp.CompanyID == editedCompany.CompanyID);
+            Data[index] = editedCompany;
+        }
+    }
+
+    async Task NewItem_Click()
+    {
+        await Grid.StartEditNewRowAsync();
+    }
+
+    async Task EditItem_Click()
+    {
+        await Grid.StartEditRowAsync(FocusedRowVisibleIndex);
+    }
+
+    async Task DeleteItem_Click()
+    {
+        Grid.ShowRowDeleteConfirmation(FocusedRowVisibleIndex);
+    }
+
+    void ColumnChooserItem_Click(ToolbarItemClickEventArgs e)
+    {
+        Grid.ShowColumnChooser();
+    }
+
+    async Task ExportXlsxItem_Click()
+    {
+        await Grid.ExportToXlsxAsync(ExportFileName);
+    }
+
+    async Task ExportXlsItem_Click()
+    {
+        await Grid.ExportToXlsAsync(ExportFileName);
+    }
+
+    async Task ExportCsvItem_Click()
+    {
+        await Grid.ExportToCsvAsync(ExportFileName);
+    }
+
+    public class EditableCompany
+    {
+        public int CompanyID { get; set; }
+        public string CompanyName { get; set; }
+        public string CompanyCode { get; set; }
+        public string OilProvider { get; set; }
+        public string TaxID { get; set; }
+        public bool ActiveCheck { get; set; }
+        public CompanyType CompanyType { get; set; } 
+
+    }
+
+    public class CompanyData
+    {
+        public static List<EditableCompany> Companies()
+        {
+            var companyType = GetCompanyType().ToList();
+
+            return new List<EditableCompany>
+            {
+                new EditableCompany
+                {
+                    CompanyID = 1,
+                    CompanyName = "B2Cargo",
+                    CompanyCode = "111",
+                    OilProvider = "Total",
+                    ActiveCheck = true,
+                    TaxID = "001",
+                    CompanyType = companyType[0]
+                },
+                new EditableCompany
+                {
+                    CompanyID = 2,
+                    CompanyName = "Navis",
+                    CompanyCode = "222",
+                    OilProvider = "Shell",
+                    ActiveCheck = true,
+                    TaxID = "002",
+                    CompanyType = companyType[1]
+                },
+                new EditableCompany
+                {
+                    CompanyID = 3,
+                    CompanyName = "Omnia",
+                    CompanyCode = "333",
+                    OilProvider = "Petrol Ofisi",
+                    ActiveCheck = false,
+                    TaxID = "003",
+                    CompanyType = companyType[2]
+                },
+            };
+        }
+
+    }
+
+    IEnumerable<CompanyType> Data3 { get; set; }
+    CompanyType Value { get; set; }
+
+    public class CompanyType
+    {
+        public string CompanyTypeName { get; set; }
+    }
+
+    public static IEnumerable<CompanyType> GetCompanyType()
+    {
+        return new List<CompanyType>
+        {
+            new CompanyType { CompanyTypeName = "Nakliyeci" },
+            new CompanyType { CompanyTypeName = "Tedarikçi" },
+            new CompanyType { CompanyTypeName = "Müşteri" },
+        };
+    }
+
+    IEnumerable<EditableEmployee> Data2 { get; set; }
+    IEnumerable<EditableEmployee> Values { get; set; }
+
+
+    void LoadEmployeeData()
+    {
+        Data2 = EmployeeData.GetSampleEmployees();
+    }
+
+
+    public class EditableEmployee
+    {
+        public int EmployeeID { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Pass { get; set; }
+        public string Phone { get; set; }
+        public string Text => $"{FirstName} {LastName}";
+    }
+
+    public class EmployeeData
+    {
+        public static List<EditableEmployee> GetSampleEmployees()
+        {
+            return new List<EditableEmployee>
+            {
+                new EditableEmployee
+                {
+                    EmployeeID = 1,
+                    FirstName = "Alp",
+                    LastName = "Gökçeer",
+                    Email = "a@b2cargo.com",
+                    Phone = "+90532a",
+                    Pass = "****a"
+                },
+                new EditableEmployee
+                {
+                    EmployeeID = 2,
+                    FirstName = "Gülşah",
+                    LastName = "Durmuş",
+                    Email = "b@b2cargo.com",
+                    Phone = "+90532b",
+                    Pass = "****b"
+                },
+                new EditableEmployee
+                {
+                    EmployeeID = 3,
+                    FirstName = "Melih",
+                    LastName = "Güney",
+                    Email = "c@b2cargo.com",
+                    Phone = "+90532c",
+                    Pass = "****c"
+                },
+            };
+        }
+    }
+
+}

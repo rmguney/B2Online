@@ -1,0 +1,19 @@
+﻿.page {
+    display: flex;
+    flex-direction: row;
+}
+
+.content {
+    overflow: auto;
+}
+
+.group:hover .group-hover\:block {
+    display: block;
+}
+
+.option-item{
+}
+
+    .option-item:hover {
+        background-color: #1e1b4b;
+    }
