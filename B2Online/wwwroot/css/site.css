@@ -43,6 +43,7 @@ html, body {
 
 .dx-rows {
     text-align: center;
+    color: dx
 }
 
     .dx-rows:hover {
@@ -208,5 +209,6 @@ html, body {
     --bs-form-valid-color: #38b44a;
     --bs-form-valid-border-color: #38b44a;
     --bs-form-invalid-color: #df382c;
-    --bs-form-invalid-border-color: #df382c
+    --bs-form-invalid-border-color: #df382c;
+    --dxbl-grid-focus-color: #000 !important;
 }

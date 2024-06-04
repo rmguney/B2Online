@@ -14,36 +14,37 @@
         <div class="flex flex-col lg:flex-row px-4">
             <div class="mb-2 lg:mb-0 lg:mr-4">
                 <select onchange="window.location.href=this.value;" class="text-blue-950 rounded-md shadow-md focus:outline-orange-500 p-2 w-full text-sm hover:shadow-sm font-bold">
-                    <option value="" selected disabled>Teslimat Raporları</option>
-                    <option value="/panel/rapor/TeslimRapor">Teslimat Raporu</option>
-                    <option value="/panel/rapor/TeslimIade">İade Raporu</option>
-                    <option value="/panel/rapor/TeslimAylik">Aylık Teslimat Raporu</option>
-                    <option value="/panel/rapor/TeslimGunluk">Günlük Teslimat Raporu</option>
-                    <option value="/panel/rapor/TeslimEdilemeyen">Teslim Edilemeyenler</option>
-                    <option value="/panel/rapor/TeslimDagitimda">Dağıtımda Olanlar</option>
+                    <option value="" selected disabled>Sipasiş Raporları</option>
+                    <option value="/panel/rapor/SiparisListesi">Sipariş Listesi</option>
+                    <option value="/panel/rapor/SiparisListesi">İptal Edilenler</option>
+                    <option value="/panel/rapor/SiparisListesi">Aylık Sipariş Listesi</option>
+                    <option value="/panel/rapor/SiparisListesi">Günlük Sipariş Listesi</option>
+                    <option value="/panel/rapor/SiparisListesi">Toplanan Siparişler</option>
+                    <option value="/panel/rapor/SiparisListesi">Toplamada Olanlar</option>
+                </select>
+            </div>
+
+            <div class="mb-2 lg:mb-0 lg:mr-4">
+                <select onchange="window.location.href=this.value;" class="text-blue-950 rounded-md shadow-md focus:outline-orange-500 p-2 w-full text-sm hover:shadow-sm font-bold">
+                    <option value="" selected disabled>Stok ve İşlem Raporları</option>
+                    <option value="/panel/rapor/SiparisListesi">Stok Listesi (Toplu)</option>
+                    <option value="/panel/rapor/SiparisListesi">Stok Listesi (SKT Detay)</option>
+                    <option value="/panel/rapor/SiparisListesi">Kritik SKT'li Ürünler</option>
+                    <option value="/panel/rapor/SiparisListesi">Elleçlenen Koli Raporu</option>
+                    <option value="/panel/rapor/SiparisListesi">Elleçleme Detay</option>
                 </select>
             </div>
 
             <div class="mb-2 lg:mb-0 lg:mr-4">
                 <select onchange="window.location.href=this.value;" class="text-blue-950 rounded-md shadow-md focus:outline-orange-500 p-2 w-full text-sm hover:shadow-sm font-bold">
                     <option value="" selected disabled>Fatura Raporları</option>
-                    <option value="/panel/rapor/FaturaListe">Fatura Listesi</option>
-                    <option value="/panel/rapor/FaturaDetay">Fatura Detay Raporu</option>
-                    <option value="/panel/rapor/FaturaHak">Fatura Hakediş Raporu</option>
-                    <option value="/panel/rapor/FaturaUrun">Ürün Bazlı Fatura Raporu</option>
-                    <option value="/panel/rapor/FaturaOzel">Özel Fatura Detay Raporu</option>
-                    <option value="/panel/rapor/FaturaEllecleme">Elleçleme Detay Raporu</option>
-                    <option value="/panel/rapor/FaturaCari">Cari Ekstre</option>
-                </select>
-            </div>
-
-            <div class="mb-2 lg:mb-0 lg:mr-4">
-                <select onchange="window.location.href=this.value;" class="text-blue-950 rounded-md shadow-md focus:outline-orange-500 p-2 w-full text-sm hover:shadow-sm font-bold">
-                    <option value="" selected disabled>Filo Yönetim Raporları</option>
-                    <option value="/panel/rapor/YakitAlim">Akaryakıt Alım Raporu</option>
-                    <option value="/panel/rapor/YakitToplam">Toplam Akaryakıt Alım</option>
-                    <option value="/panel/rapor/YakitGunluk">Günlük KM Raporu</option>
-                    <option value="/panel/rapor/YakitFark">Yakıt Fark Raporu</option>
+                    <option value="/panel/rapor/SiparisListesi">Palet Bazlı Stok Gün</option>
+                    <option value="/panel/rapor/SiparisListesi">Koli Bazlı Stok Gün</option>
+                    <option value="/panel/rapor/SiparisListesi">Elleçlenen Koli</option>
+                    <option value="/panel/rapor/SiparisListesi">Mal Kabulü Yapılan Palet</option>
+                    <option value="/panel/rapor/SiparisListesi">Mal Kabulü Yapılan Koli</option>
+                    <option value="/panel/rapor/SiparisListesi">Yükleme Palet</option>
+                    <option value="/panel/rapor/SiparisListesi">Yükleme Koli</option>
                 </select>
             </div>
         </div>
