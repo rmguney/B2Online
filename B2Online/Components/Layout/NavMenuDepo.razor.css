@@ -9,3 +9,30 @@
 .nav-item ::deep .nav-link:hover {
     color: #fdba74;
 }
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    z-index: 999999 !important;
+}
+
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 80px;
+        background: linear-gradient(to bottom, #172554, #2e1065, #3b0764);
+        color: #fb923c;
+        text-align: center;
+        padding: 1px 0px;
+        border-radius: 3px;
+        position: absolute;
+        top: -30%;
+        left: -40%;
+        opacity: 0;
+        transition: opacity 0.4s;
+        z-index: 999999 !important;
+    }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
