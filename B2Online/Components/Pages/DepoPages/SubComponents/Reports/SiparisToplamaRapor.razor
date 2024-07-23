@@ -1,5 +1,5 @@
-﻿@page "/panel/rapor/YakitGunluk"
-@layout Components.Layout.RaporLayout
+﻿@page "/panel/rapor/siparisToplamaRapor"
+@layout Components.Layout.RaporLayoutDepo
 @attribute [StreamRendering(true)]
 @rendermode InteractiveServer
 @inject IJSRuntime JSRuntime
@@ -47,10 +47,6 @@
     </div>
 </div>
 
-<div>
-    <label class="text-blue-950 text-sm ml-4">Günlük KM Raporu</label>
-</div>
-
 <DxGrid @ref="Grid"
         ShowSearchBox="true"
         CustomizeElement="Grid_CustomizeElement"
@@ -64,12 +60,13 @@
         LayoutAutoLoading="Grid_LayoutAutoLoading"
         LayoutAutoSaving="Grid_LayoutAutoSaving">
     <Columns>
-
-        @* kolonlar *@
-
-        <DxGridDataColumn Caption="ATF Tarihi" FieldName="Date"  MinWidth="100" />
-        <DxGridDataColumn Caption="Kolon" FieldName=""  MinWidth="100" />
-
+        <DxGridDataColumn Caption="Sipariş No" FieldName=""  MinWidth="100" />
+        <DxGridDataColumn Caption="Alıcı Adı" FieldName=""  MinWidth="100" />
+        <DxGridDataColumn Caption="Sipariş Alış - Bitiş Tarihi" FieldName=""  MinWidth="100" />
+        <DxGridDataColumn Caption="Sipariş Miktarı (KL)" FieldName=""  MinWidth="100" />
+        <DxGridDataColumn Caption="Toplanan Miktar (KL)" FieldName=""  MinWidth="100" />
+        <DxGridDataColumn Caption="Toplanacak Miktar (KL)" FieldName=""  MinWidth="100" />
+        <DxGridDataColumn Caption="ATF No" FieldName=""  MinWidth="100" />
     </Columns>
     <ToolbarTemplate>
         <DxToolbar>

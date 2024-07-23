@@ -1,0 +1,138 @@
+﻿@page "/panel/sistemeYuklenmis"
+@layout Components.Layout.DepoLanding
+@rendermode InteractiveServer
+<link href="_content/DevExpress.Blazor.Themes/bootstrap-external.bs5.min.css" rel="stylesheet" asp-append-version="true" />
+<PageTitle>OMNIA</PageTitle>
+
+<div class="flex flex-col p-2 w-full">
+    <div class="bg-white">
+        <div class="lg:pt-2 px-4">
+            <DxChart Data="@deliveries">
+                <DxChartLegend HorizontalAlignment="HorizontalAlignment.Right" />
+                <DxChartTooltip Enabled="true"
+                                Position="RelativePosition.Outside">
+                </DxChartTooltip>
+                <DxChartBarSeries ArgumentField="@((SampleData i) => i.Date)"
+                                  ValueField="@((SampleData i) => i.Delivery)"
+                                  Name="Son 12 Aydaki 2">
+                    <DxChartSeriesLabel Visible="false" />
+                </DxChartBarSeries>
+            </DxChart>
+        </div>
+    </div>
+
+    <div class="p-2">
+        <table class="w-full bg-white mb-1">
+            <thead class="bg-white text-blue-950">
+                <tr>
+                    <td class="text-center md-4 px-2 lg:text-md text-sm font-bold">Ürün Kodu</td>
+                    <td class="text-center md-4 px-2 lg:text-md text-sm font-bold">Ürün Adı</td>
+                    <td class="text-center md-4 px-2 lg:text-md text-sm font-bold">SKT</td>
+                    <td class="text-center md-4 px-2 lg:text-md text-sm font-bold">Kalan Gün</td>
+                </tr>
+            </thead>
+
+            <tbody class="text-blue-950 bg-slate-50">
+                <tr class="bg-slate-50 clickable" onclick="window.location='/panel/siparisler';">
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                </tr>
+                <tr class="bg-white clickable" onclick="window.location='/panel/siparisler';">
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                </tr>
+                <tr class="bg-slate-50 clickable" onclick="window.location='/panel/siparisler';">
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                </tr>
+                <tr class="bg-white clickable" onclick="window.location='/panel/siparisler';">
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                </tr>
+                <tr class="bg-slate-50 clickable" onclick="window.location='/panel/siparisler';">
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                </tr>
+                <tr class="bg-white clickable" onclick="window.location='/panel/siparisler';">
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                </tr>
+                <tr class="bg-slate-50 clickable" onclick="window.location='/panel/siparisler';">
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                </tr>
+                <tr class="bg-white clickable" onclick="window.location='/panel/siparisler';">
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                </tr>
+                <tr class="bg-slate-50 clickable" onclick="window.location='/panel/siparisler';">
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                </tr>
+                <tr class="bg-white clickable" onclick="window.location='/panel/siparisler';">
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                    <td class="text-center py-2 px-2 text-xs lg:text-sm text-blue-950">Veri alınıyor</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+                    @code {
+    private SampleData[] deliveries;
+
+    protected override void OnInitialized()
+    {
+        deliveries = GetDelivery();
+    }
+
+    public class SampleData
+    {
+        public DateTime Date { get; set; }
+        public int Delivery { get; set; }
+    }
+
+    public SampleData[] GetDelivery()
+    {
+        var deliveries = new List<SampleData>();
+        for (int i = 0; i < 12; i++)
+        {
+            var date = DateTime.Today.AddMonths(-i);
+            var delivery = new SampleData()
+                {
+                    Date = date,
+                    Delivery = RandomDelivery()
+                };
+
+            deliveries.Add(delivery);
+        }
+        return deliveries.ToArray();
+    }
+
+    private int RandomDelivery()
+    {
+        Random random = new Random();
+        return random.Next(10, 21);
+    }
+
+}

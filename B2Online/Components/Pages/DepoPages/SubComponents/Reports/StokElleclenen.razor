@@ -1,5 +1,5 @@
-﻿@page "/panel/rapor/YakitGunluk"
-@layout Components.Layout.RaporLayout
+﻿@page "/panel/rapor/stokElleclenen"
+@layout Components.Layout.RaporLayoutDepo
 @attribute [StreamRendering(true)]
 @rendermode InteractiveServer
 @inject IJSRuntime JSRuntime
@@ -47,8 +47,9 @@
     </div>
 </div>
 
+
 <div>
-    <label class="text-blue-950 text-sm ml-4">Günlük KM Raporu</label>
+    <label class="text-blue-950 text-sm ml-4">Elleçlenen Koli Raporu</label>
 </div>
 
 <DxGrid @ref="Grid"
@@ -64,12 +65,7 @@
         LayoutAutoLoading="Grid_LayoutAutoLoading"
         LayoutAutoSaving="Grid_LayoutAutoSaving">
     <Columns>
-
-        @* kolonlar *@
-
-        <DxGridDataColumn Caption="ATF Tarihi" FieldName="Date"  MinWidth="100" />
-        <DxGridDataColumn Caption="Kolon" FieldName=""  MinWidth="100" />
-
+        <DxGridDataColumn Caption="Kolon" FieldName="Date"  MinWidth="100" />
     </Columns>
     <ToolbarTemplate>
         <DxToolbar>

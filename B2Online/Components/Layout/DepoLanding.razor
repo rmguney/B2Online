@@ -1,0 +1,131 @@
+﻿@layout Components.Layout.MainLayoutDepo
+@inherits LayoutComponentBase
+@attribute [StreamRendering(true)]
+<link href="_content/DevExpress.Blazor.Themes/bootstrap-external.bs5.min.css" rel="stylesheet" asp-append-version="true" />
+
+<PageTitle>OMNIA</PageTitle>
+
+<div class="lg:flex-col justify-center">
+    <div class="flex flex-col text-center p-6">
+        <div class="flex flex-row justify-center">
+            <h3 class="text-xl lg:text-4xl text-blue-950 font-bold">
+                Depo işlemlerinizi yapmaya başlayabiliriz
+            </h3>
+            <h3 class="text-xl lg:text-4xl text-white">
+                -
+            </h3>
+            <h3 class="text-xl lg:text-4xl text-orange-500 font-bold">
+                {CustomerName}
+            </h3>
+            <h3 class="text-xl lg:text-4xl text-blue-950 font-bold">
+                !
+            </h3>
+        </div>
+    </div>
+
+    <div class="flex justify-center flex-col lg:flex-row">
+
+        <div class="flex flex-col px-4 w-full lg:w-1/3 mb-4">
+            <div class="bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950">
+                <h1 class="text-white text-lg text-center py-4 px-2 font-bold">
+                    Hızlı rapor sorgulaması yapabilirsiniz
+                </h1>
+            </div>
+
+            <div class="bg-white shadow-md w-full">
+                <div class="p-4">
+
+                    <div class="bg-slate-50 p-2">
+                        <h3 class="">
+                            Sipariş Giriş
+                        </h3>
+                    </div>
+                    <div class="bg-white p-2">
+                        <h3>
+                            Toplu Sipariş Aktarım
+                        </h3>
+                    </div>
+                    <div class="bg-slate-50 p-2">
+                        <h3>
+                            Depo - Ürün / SKY Bazlı
+                        </h3>
+                    </div>
+                    <div class="bg-white p-2">
+                        <h3>
+                            Depo Stok Raporu
+                        </h3>
+                    </div>
+                    <div class="bg-slate-50 p-2">
+                        <h3>
+                            Ürün Hareket Raporu
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col px-4 lg:px-0 lg:mr-4 mb-4 w-full">
+            <div class="bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950">
+                <h1 class="text-lg text-white text-center py-4 px-2 font-bold">
+                    Veya SKT'si yaklaşan ürünlerinizi görüntüleyebilirsiniz
+                </h1>
+            </div>
+
+            <div class="bg-white shadow-md w-full">
+                <div class="flex flex-col lg:flex-row">
+                    <div class="flex flex-row lg:flex-col">
+                        <NavLink class="nav-link" href="panel/depo">
+                            <div class="flex flex-row lg:flex-col">
+                                <div class="flex flex-col lg:py-12 lg:mb-8 px-1 lg:ml-4">
+                                    <h1 class="text-center text-lg lg:text-5xl text-violet-950 font-bold mb-1">
+                                        99
+                                    </h1>
+                                    <h1 class="text-center text-xs lg:text-md text-violet-950 font-bold">
+                                        Depoda Bulunan Koli ve Palet
+                                    </h1>
+                                </div>
+                            </div>
+                        </NavLink>
+
+                        <NavLink class="nav-link" href="panel/sistemeYuklenmis">
+                        <div class="flex flex-col lg:mb-20 px-1 lg:ml-4">
+                            <h1 class="text-center text-lg lg:text-5xl text-violet-950 font-bold mb-1">
+                                99
+                            </h1>
+                            <h1 class="text-center text-xs lg:text-md text-violet-950 font-bold">
+                                Sisteme Yüklenmiş Sipasiş
+                            </h1>
+                        </div>
+                        </NavLink>
+
+                        <NavLink class="nav-link" href="panel/toplamCeki">
+                        <div class="flex flex-col lg:mb-20 px-1 lg:ml-4">
+                            <h1 class="text-center text-lg lg:text-5xl text-violet-950 font-bold mb-1">
+                                99
+                            </h1>
+                            <h1 class="text-center text-xs lg:text-md text-violet-950 font-bold">
+                                Toplam Sipariş (Çeki)
+                            </h1>
+                        </div>
+                        </NavLink>
+
+                        <NavLink class="nav-link" href="panel/bugunHazirlanmis">
+                        <div class="flex flex-col lg:mb-12 px-1 lg:ml-4">
+                            <h1 class="text-center text-lg lg:text-5xl text-violet-950 font-bold mb-1">
+                                99
+                            </h1>
+                            <h1 class="text-center text-xs lg:text-md text-violet-950 font-bold">
+                                Bugün Hazırlanmış Sipariş
+                            </h1>
+                        </div>
+                        </NavLink>
+
+                    </div>
+
+                 @Body
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

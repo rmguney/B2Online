@@ -1,4 +1,4 @@
-﻿@page "/panel/rapor/siparisListesi"
+﻿@page "/panel/rapor/siparisAylik"
 @layout Components.Layout.RaporLayoutDepo
 @attribute [StreamRendering(true)]
 @rendermode InteractiveServer
@@ -49,7 +49,7 @@
 
 
 <div>
-    <label class="text-blue-950 text-sm ml-4">Sipariş Listesi</label>
+    <label class="text-blue-950 text-sm ml-4">Aylık Sipariş Listesi</label>
 </div>
 
 <DxGrid @ref="Grid"
@@ -65,7 +65,7 @@
         LayoutAutoLoading="Grid_LayoutAutoLoading"
         LayoutAutoSaving="Grid_LayoutAutoSaving">
     <Columns>
-        <DxGridDataColumn Caption="Kolon" FieldName="Date" Width="150" MinWidth="100" />
+        <DxGridDataColumn Caption="Kolon" FieldName="Date"  MinWidth="100" />
     </Columns>
     <ToolbarTemplate>
         <DxToolbar>

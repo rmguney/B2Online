@@ -1,8 +1,13 @@
 ﻿@page "/panel/siparisToplama"
 @layout Components.Layout.MainLayoutDepo
+@rendermode InteractiveServer
 <link href="_content/DevExpress.Blazor.Themes/bootstrap-external.bs5.min.css" rel="stylesheet" asp-append-version="true" />
 <PageTitle>OMNIA</PageTitle>
 
-Sipariş Toplama
+<h3 class="text-xl lg:text-4xl text-blue-950 font-bold text-center p-4">
+    Sipariş Toplama Raporu
+</h3>
 
-<img src="assets/toplama-taslak.png" />
+<div class="flex flex-col px-4 mb-4">
+    <B2Online.Components.Pages.DepoPages.SubComponents.Reports.SiparisToplamaRapor />
+</div>
