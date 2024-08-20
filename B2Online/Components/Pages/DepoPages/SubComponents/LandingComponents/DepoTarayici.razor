@@ -1,0 +1,81 @@
+﻿@code {
+    [Parameter] public string B2SiparisNo { get; set; }
+    [Parameter] public string MusteriSiparisNo { get; set; }
+    [Parameter] public string AliciSiparisNo { get; set; }
+    [Parameter] public string Gonderen { get; set; }
+    [Parameter] public string Alici { get; set; }
+    [Parameter] public string SiparisKoli { get; set; }
+    [Parameter] public string ToplananKoli { get; set; }
+    [Parameter] public string KalanKoli { get; set; }
+}
+
+<div class="bg-white shadow-md p-4">
+    <form class="flex flex-col">
+        <div class="flex flex-row py-2">
+            <label for="atf" class="text-orange-500 text-sm py-2 w-1/2 font-bold">
+                @B2SiparisNo
+            </label>
+            <input id="b2s" name="b2s" class="p-1 block w-full text-blue-950 rounded-md border border-slate-200 focus:outline-orange-500">
+        </div>
+
+        <div class="flex flex-row py-2">
+            <label for="atf" class="text-orange-500 text-sm py-2 w-1/2 font-bold">
+                @MusteriSiparisNo
+            </label>
+            <input id="mus" name="mus" class="p-1 block w-full text-blue-950 rounded-md border border-slate-200 focus:outline-orange-500">
+        </div>
+
+        <div class="flex flex-row py-2">
+            <label for="irsaliye" class="text-orange-500 text-sm py-2 w-1/2 font-bold">
+                @AliciSiparisNo
+            </label>
+            <input id="als" name="als" class="p-1 block w-full text-blue-950 rounded-md border border-slate-200 focus:outline-orange-500">
+        </div>
+    </form>
+    <button class="mt-4 shadow-md hover:shadow-sm rounded-md bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950  text-white hover:text-blue-950 hover:from-white font-bold lg:px-8 p-2 mb-4 lg:mb-0 text-md w-full border-2 border-violet-950" type="submit">Sorgula</button>
+
+    <div class="py-2 mt-2">
+        <label class="text-blue-950 text-sm font-bold">
+            Gönderen:
+        </label>
+        <label class="text-orange-500 text-sm py-2">
+            @Gonderen
+        </label>
+    </div>
+
+    <div class="py-2">
+        <label class="text-blue-950 text-sm py-2 font-bold">
+            Alıcı:
+        </label>
+        <label class="text-orange-500 text-sm py-2">
+            @Alici
+        </label>
+    </div>
+
+    <div class="py-2">
+        <label class="text-blue-950 text-sm py-2 font-bold">
+            Sipariş Koli Miktarı:
+        </label>
+        <label class="text-orange-500 text-sm py-2">
+            @SiparisKoli
+        </label>
+    </div>
+
+    <div class="py-2">
+        <label class="text-blue-950 text-sm py-2 font-bold">
+            Toplanan Koli Miktarı:
+        </label>
+        <label class="text-orange-500 text-sm py-2">
+            @ToplananKoli
+        </label>
+    </div>
+
+    <div class="py-2">
+        <label class="text-blue-950 text-sm py-2 font-bold">
+            Kalan Koli Miktarı:
+        </label>
+        <label class="text-orange-500 text-sm">
+            @KalanKoli
+        </label>
+    </div>
+</div>
