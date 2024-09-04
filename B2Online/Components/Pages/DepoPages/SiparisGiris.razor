@@ -1,9 +1,349 @@
 ﻿@page "/panel/siparisGiris"
 @layout Components.Layout.MainLayoutDepo
+@attribute [StreamRendering(true)]
 @rendermode InteractiveServer
+@using DevExpress.Blazor
 <link href="_content/DevExpress.Blazor.Themes/bootstrap-external.bs5.min.css" rel="stylesheet" asp-append-version="true" />
 <PageTitle>OMNIA</PageTitle>
 
-Sipariş Giriş
+<h3 class="text-xl lg:text-4xl text-blue-950 font-bold text-center p-4">
+    Sipariş Giriş
+</h3>
 
-<img src="assets/giris-taslak.png" />
+<div class="bg-white shadow-md p-4 m-4">
+    <div class="flex flex-col">
+        <div class="flex flex-col lg:flex-row lg:my-4">
+            <div class="lg:w-1/2 lg:pr-2">
+                <a class="text-blue-950 text-sm mb-2 font-bold">Gönderen Firma</a>
+                <div class="">
+                    <DxComboBox Data="@DropdownSamples"
+                                ListRenderMode="ListRenderMode.Virtual"
+                                FilteringMode="DataGridFilteringMode.Contains"
+                                TextFieldName="Name"
+                                @bind-Value="SelectedDropdownSample"
+                                CssClass="cw-480"
+                                InputId="cbDropdownSamples" />
+                </div>
+              @*???<div class="text-orange-600 text-sm mb-2">
+                    Gönderen firma adresini görüntülemek için seçim yapınız
+                </div>???*@
+            </div>
+            <div class="lg:w-1/2">
+                <a class="text-blue-950 text-sm mb-2 font-bold">Alıcı Firma</a>
+                <div class="">
+                    <DxComboBox Data="@DropdownSamples"
+                                ListRenderMode="ListRenderMode.Virtual"
+                                FilteringMode="DataGridFilteringMode.Contains"
+                                TextFieldName="Name"
+                                @bind-Value="SelectedDropdownSample"
+                                CssClass="cw-480"
+                                InputId="cbDropdownSamples" />
+                </div>
+                @*???<div class="text-orange-600 text-sm mb-2">
+                    Alıcı firma adresini görüntülemek için seçim yapınız
+                </div>???*@
+            </div>
+
+        </div>
+
+        <div class="flex flex-col lg:flex-row lg:my-4">
+            <div class="lg:w-1/3 lg:pr-2">
+                <a class="text-blue-950 text-sm mb-2 font-bold">Sevk Adresi</a>
+                <div class="">
+                    <DxComboBox Data="@DropdownSamples"
+                                ListRenderMode="ListRenderMode.Virtual"
+                                FilteringMode="DataGridFilteringMode.Contains"
+                                TextFieldName="Name"
+                                @bind-Value="SelectedDropdownSample"
+                                CssClass="cw-480"
+                                InputId="cbDropdownSamples" />
+                </div>
+            </div>
+            <div class="lg:w-1/3 lg:pr-2">
+                <a class="text-blue-950 text-sm mb-2 font-bold">Sipariş Tarihi</a>
+                <div class="flex flex-col">
+                    <InputDate @bind-Value="dateTimeValue" Converter="new DateTimeConverter()" class="text-sm p-1 border border-1 focus:outline-orange-400"></InputDate>
+                </div>
+            </div>
+            <div class="lg:w-1/3">
+                <a class="text-blue-950 text-sm mb-2 font-bold">Termin Tarihi</a>
+                <div class="flex flex-col">
+                    <InputDate @bind-Value="dateTimeValue2" Converter="new DateTimeConverter()" class="text-sm p-1 border border-1 focus:outline-orange-400"></InputDate>
+                </div>
+            </div>
+        </div>
+
+        <a class="text-blue-950 text-sm font-bold py-4">Ürün Bilgileri</a>
+        <div class="pb-2 w-full">
+            <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Contained">
+                <DxToolbarItem Text="Yeni" Click="NewItem_Click" />
+                <DxToolbarItem Text="Düzenle" Click="EditItem_Click" />
+                <DxToolbarItem Text="Sil" Click="DeleteItem_Click" />
+            </DxToolbar>
+        </div>
+
+        <div class="pb-2 w-full">
+            <DxGrid @ref="Grid"
+                    Data="Data"
+                    FocusedRowEnabled="true"
+                    CustomizeElement="Grid_CustomizeElement"
+                    EditModelSaving="Grid_EditModelSaving"
+                    DataItemDeleting="Grid_DataItemDeleting"
+                    FocusedRowChanged="Grid_FocusedRowChanged"
+                    KeyboardNavigationEnabled="true">
+                <Columns>
+                    <DxGridDataColumn FieldName="UrunKodu" Caption="Ürün Kodu" MinWidth="50" Width="full" />
+                    <DxGridDataColumn FieldName="UrunAdi" Caption="Ürün Adı" MinWidth="50" Width="full" />
+                    <DxGridDataColumn FieldName="Birim" Caption="Birim" MinWidth="50" Width="full" />
+                    <DxGridDataColumn FieldName="Miktar" Caption="Miktar" MinWidth="50" Width="full" />
+                    <DxGridDataColumn FieldName="Artikel" Caption="Artikel" MinWidth="50" Width="full" />
+                    <DxGridDataColumn FieldName="Barkod" Caption="Barkod" MinWidth="50" Width="full" />
+                    <DxGridDataColumn FieldName="Aciklama" Caption="Açıklama" MinWidth="50" Width="full" />
+
+                </Columns>
+                <EditFormTemplate Context="EditFormContext">
+                    <DxFormLayout CssClass="w-100">
+                        <DxFormLayoutItem Caption="Ürün Kodu" ColSpanMd="3">
+                            <DxComboBox Data="@GetUrunKodu()"
+                                        ListRenderMode="ListRenderMode.Virtual"
+                                        FilteringMode="DataGridFilteringMode.Contains"
+                                        TextFieldName="UrunKodu"
+                                        @bind-Value="SelectedUrunKodu"
+                                        CssClass="cw-480"
+                                        InputId="cbUrunKodu" />
+                        </DxFormLayoutItem>
+
+                        <DxFormLayoutItem Caption="Ürün Adı" ColSpanMd="5">
+                            @EditFormContext.GetEditor("UrunAdi")
+                        </DxFormLayoutItem>
+
+                        <DxFormLayoutItem Caption="Miktar" ColSpanMd="2">
+                            @EditFormContext.GetEditor("Miktar")
+                        </DxFormLayoutItem>
+
+                        <DxFormLayoutItem Caption="Birim" ColSpanMd="2">
+                            <DxComboBox Data="@GetBirim()"
+                                        ListRenderMode="ListRenderMode.Virtual"
+                                        FilteringMode="DataGridFilteringMode.Contains"
+                                        TextFieldName="Birim"
+                                        @bind-Value="SelectedBirim"
+                                        CssClass="cw-480"
+                                        InputId="cbBirim" />
+                        </DxFormLayoutItem>
+
+                        <DxFormLayoutItem Caption="Artikel No" ColSpanMd="6">
+                            @EditFormContext.GetEditor("Artikel")
+                        </DxFormLayoutItem>
+
+                        <DxFormLayoutItem Caption="Barkod" ColSpanMd="6">
+                            @EditFormContext.GetEditor("Barkod")
+                        </DxFormLayoutItem>
+
+                        <DxFormLayoutItem Caption="Aciklama" ColSpanMd="12">
+                            @EditFormContext.GetEditor("Aciklama")
+                        </DxFormLayoutItem>
+                    </DxFormLayout>
+                </EditFormTemplate>
+            </DxGrid>
+        </div>
+
+        <div class="flex flex-col lg:flex-row my-4">
+            <div class="lg:w-1/2 lg:pr-2">
+                <a class="text-blue-950 text-sm mb-2 font-bold">İrsaliye No</a>
+                <div class="">
+                    <DxTextBox @bind-Text="IrsaliyeNo" CssClass="cw-480" />
+                </div>
+            </div>
+            <div class="lg:w-1/2">
+                    <a class="text-blue-950 text-sm mb-2 font-bold">Sistem No</a>
+                    <div class="">
+                        <DxTextBox @bind-Text="SistemNo" CssClass="cw-480" />
+                    </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row pt-4">
+            <div class="flex-1 lg:p-2 ">
+                <a type="submit" class="w-full shadow-md rounded-md bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 text-white font-bold text-sm lg:text-md px-4 py-2 mb-2 hover:text-blue-950 hover:from-white hover:shadow-sm border-2 border-violet-950 inline-flex items-center justify-center">Kaydet</a>
+            </div>
+
+            <div class="flex-1 lg:p-2 ">
+                <a type="submit" class="w-full shadow-md rounded-md bg-white text-blue-950 font-bold text-sm lg:text-md px-4 py-2 mb-2  border-2 border-violet-950 inline-flex items-center justify-center">Sitem No Atama İçin Kaydediniz</a>
+            </div>
+
+            <div class="flex-1 lg:p-2">
+                <a type="submit" class="w-full shadow-md rounded-md bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 text-white font-bold text-sm lg:text-md px-4 py-2 mb-2 hover:text-blue-950 hover:from-white hover:shadow-sm border-2 border-violet-950 inline-flex items-center justify-center">Değiştir</a>
+            </div>
+
+            <div class="flex-1 lg:p-2">
+                <a type="submit" class="w-full shadow-md rounded-md bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 text-white font-bold text-sm lg:text-md px-4 py-2 mb-2 hover:text-blue-950 hover:from-white hover:shadow-sm border-2 border-violet-950 inline-flex items-center justify-center">Kaydet ve Aktar</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@code {
+    bool EditItemsEnabled { get; set; }
+    int FocusedRowVisibleIndex { get; set; }
+    EditableProduct[] Data { get; set; }
+    IGrid Grid { get; set; }
+
+    string SelectedUrunKodu { get; set; } = string.Empty;
+    string SelectedBirim { get; set; } = string.Empty;
+    string SelectedDropdownSample { get; set; } = string.Empty;
+
+    string Gonderen { get; set; } = string.Empty;
+    string Alici { get; set; } = string.Empty;
+    string SevkAdresi { get; set; } = string.Empty;
+    string IrsaliyeNo { get; set; } = string.Empty;
+    string SistemNo { get; set; } = string.Empty;
+
+    DateTime dateTimeValue { get; set; } = DateTime.Now;
+    DateTime dateTimeValue2 { get; set; } = DateTime.Now;
+
+    void Grid_CustomizeElement(GridCustomizeElementEventArgs e)
+    {
+        if (e.ElementType == GridElementType.DataRow)
+        {
+            e.CssClass = "dx-rows";
+        }
+        if (e.ElementType == GridElementType.HeaderRow || e.ElementType == GridElementType.GroupPanelHeader)
+        {
+            e.CssClass = "dx-header";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadGridDataAsync();
+    }
+
+    async Task LoadGridDataAsync()
+    {
+        Data = SubeData.Subeler().ToArray();
+    }
+    void Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
+    {
+        FocusedRowVisibleIndex = args.VisibleIndex;
+        UpdateEditItemsEnabled(true);
+    }
+
+    void UpdateEditItemsEnabled(bool enabled)
+    {
+        EditItemsEnabled = enabled;
+    }
+
+    async Task Grid_DataItemDeleting(GridDataItemDeletingEventArgs e)
+    {
+        var SubeToDelete = (EditableProduct)e.DataItem;
+        Data = Data.Where(s => s.SubeID != SubeToDelete.SubeID).ToArray();
+        if (Data.Length == 0)
+            UpdateEditItemsEnabled(false);
+    }
+
+    async Task Grid_EditModelSaving(GridEditModelSavingEventArgs e)
+    {
+        if (e.IsNew)
+        {
+            var newSube = (EditableProduct)e.EditModel;
+            newSube.SubeID = Data.Max(s => s.SubeID) + 1;
+            Data = Data.Concat(new[] { newSube }).ToArray();
+        }
+        else
+        {
+            var editedSube = (EditableProduct)e.EditModel;
+            var index = Array.FindIndex(Data, s => s.SubeID == editedSube.SubeID);
+            Data[index] = editedSube;
+        }
+    }
+
+    async Task NewItem_Click()
+    {
+        await Grid.StartEditNewRowAsync();
+    }
+
+    async Task EditItem_Click()
+    {
+        await Grid.StartEditRowAsync(FocusedRowVisibleIndex);
+    }
+
+    async Task DeleteItem_Click()
+    {
+        Grid.ShowRowDeleteConfirmation(FocusedRowVisibleIndex);
+    }
+
+    public class EditableProduct
+    {
+        public int SubeID { get; set; }
+        public string UrunKodu { get; set; }
+        public string UrunAdi { get; set; }
+        public string Birim { get; set; }
+        public string Miktar { get; set; }
+        public string Artikel { get; set; }
+        public string Barkod { get; set; }
+        public string Aciklama { get; set; }
+
+    }
+
+    public class SubeData
+    {
+        public static List<EditableProduct> Subeler()
+        {
+            return new List<EditableProduct>
+            {
+                new EditableProduct
+                {
+                    SubeID = 1,
+                    UrunKodu = "SK001",
+                    UrunAdi = "Ürün A",
+                    Birim = "kg",
+                    Miktar = "42",
+                    Artikel = "1111",
+                    Barkod = "82493904590",
+                    Aciklama = "Dikkat kırılabilir",
+
+                },
+
+            };
+        }
+    }
+
+    public static IEnumerable<DropdownSample> DropdownSamples => new List<DropdownSample>
+    {
+        new DropdownSample { Name = "Firma 1" },
+        new DropdownSample { Name = "Firma 2" },
+        new DropdownSample { Name = "Firma 3" },
+        new DropdownSample { Name = "Firma 4" },
+        new DropdownSample { Name = "Firma 5" }
+    };
+
+    public class DropdownSample
+    {
+        public string Name { get; set; }
+    }
+
+    public static IEnumerable<EditableProduct> GetBirim()
+    {
+        return new List<EditableProduct>
+        {
+            new EditableProduct { Birim = "m³" },
+            new EditableProduct { Birim = "ton" },
+            new EditableProduct { Birim = "kg" },
+
+        };
+    }
+
+    public static IEnumerable<EditableProduct> GetUrunKodu()
+    {
+        return new List<EditableProduct>
+        {
+            new EditableProduct { Birim = "111" },
+            new EditableProduct { Birim = "222" },
+            new EditableProduct { Birim = "333" },
+
+        };
+    }
+
+}

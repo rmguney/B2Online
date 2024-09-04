@@ -1,4 +1,4 @@
-﻿@page "/panel/firmaAtama"
+﻿@page "/panel/--kullaniciAtama"
 @layout Components.Layout.MainLayout
 <PageTitle>OMNIA</PageTitle>
 @using System.Text.Json
@@ -9,21 +9,21 @@
 <div class="x-auto px-4 mb-4">
 
     <h3 class="text-xl lg:text-4xl text-blue-950 font-bold text-center p-4">
-        Kullanıcı İşlemleri
+        Kullanıcı İşlemleri ** LİVEDAKİ VERSİYON GÜNCEL **
     </h3>
 
     <div class="lg:w-3/5 mx-auto px-4 mb-4">
         <div class="flex items-center justify-between bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 px-8 py-2">
-            <a href="panel/kullanici">
+            <a href="panel/atamalar">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-white hover:text-orange-300">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                 </svg>
             </a>
-            <h1 class="text-lg text-white font-bold py-2 px-2">Firma Atama</h1>
+            <h1 class="text-lg text-white font-bold py-2 px-2">Kullanıcı Atama</h1>
             <div></div>
         </div>
         <div class="bg-white shadow-md p-4">
-            <div class="pb-2 w-full">
+            <div class="pb-2">
                 <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Contained">
                     <DxToolbarItem Text="Yeni" Click="NewItem_Click" />
                     <DxToolbarItem Text="Düzenle" Click="EditItem_Click" />
@@ -49,49 +49,28 @@
                         KeyboardNavigationEnabled="true">
 
                     <Columns>
-                        <DxGridDataColumn FieldName="CompanyType" Caption="Firma Tipi" Min />
-                        <DxGridDataColumn FieldName="CompanyName" Caption="Firma Adı" Min />
-                        <DxGridDataColumn FieldName="CompanyCode" Caption="Firma Kodu" Width="50" />
-                        <DxGridDataColumn FieldName="OilProvider" Caption="Akayaryakıt Firması" Min />
-                        <DxGridDataColumn FieldName="TaxID" Caption="Vergi No" Width="50" />
-                        <DxGridDataColumn UnboundType="GridUnboundColumnType.Boolean" UnboundExpression="[ActiveCheck] <> Null"  Caption="Aktif?" Width="60" />
+                        <DxGridDataColumn FieldName="FirstName" Caption="Ad" Min />
+                        <DxGridDataColumn FieldName="LastName" Caption="Soyad" Min />
+                        <DxGridDataColumn FieldName="Email" Caption="Email" Min />
+                        <DxGridDataColumn FieldName="Pass" Caption="Şifre" Width="100" />
+                        <DxGridDataColumn FieldName="Phone" Caption="Telefon No"  Min />
                     </Columns>
                     <EditFormTemplate Context="EditFormContext">
                         <DxFormLayout CssClass="w-100">
-                            <DxFormLayoutItem Caption="Firma Adı" ColSpanMd="6">
-                                @EditFormContext.GetEditor("CompanyName")
+                            <DxFormLayoutItem Caption="Ad" ColSpanMd="6">
+                                @EditFormContext.GetEditor("FirstName")
                             </DxFormLayoutItem>
-                            <DxFormLayoutItem Caption="Firma Kodu" ColSpanMd="6">
-                                @EditFormContext.GetEditor("CompanyCode")
+                            <DxFormLayoutItem Caption="Soyad" ColSpanMd="6">
+                                @EditFormContext.GetEditor("LastName")
                             </DxFormLayoutItem>
-                            <DxFormLayoutItem Caption="Akayaryakıt Firması" ColSpanMd="6">
-                                @EditFormContext.GetEditor("OilProvider")
+                            <DxFormLayoutItem Caption="Email" ColSpanMd="6">
+                                @EditFormContext.GetEditor("Email")
                             </DxFormLayoutItem>
-                            <DxFormLayoutItem Caption="Vergi No" ColSpanMd="6">
-                                @EditFormContext.GetEditor("TaxID")
+                            <DxFormLayoutItem Caption="Şifre" ColSpanMd="6">
+                                @EditFormContext.GetEditor("Pass")
                             </DxFormLayoutItem>
-                            <DxFormLayoutItem Caption="Firma Tipi" ColSpanMd="6">
-                                <DxComboBox Data="@Data3"
-                                            ListRenderMode="ListRenderMode.Virtual"
-                                            FilteringMode="DataGridFilteringMode.Contains"
-                                            TextFieldName="@nameof(CompanyType.CompanyTypeName)"
-                                            @bind-Value="@Value"
-                                            CssClass="cw-480"
-                                            InputId="cbVirtualScrolling" />
-                            </DxFormLayoutItem>
-
-                            <DxFormLayoutItem Caption="Aktif?" ColSpanMd="6">
-                                @EditFormContext.GetEditor("ActiveCheck")
-
-                            </DxFormLayoutItem>
-                            <DxFormLayoutItem Caption="Yetkililer" ColSpanMd="12">
-                                <DxTagBox Data="@Data2"
-                                          TextFieldName="@nameof(EditableEmployee.Text)"
-                                          @bind-Values="@Values"
-                                          CssClass="cw-480"
-                                          AllowCustomTags="true"
-                                          ListRenderMode="ListRenderMode.Virtual"
-                                          InputId="tbTagTemplate" />
+                            <DxFormLayoutItem Caption="Telefon No" ColSpanMd="6">
+                                @EditFormContext.GetEditor("Phone")
                             </DxFormLayoutItem>
                         </DxFormLayout>
                     </EditFormTemplate>
@@ -108,7 +87,7 @@
     const string ExportFileName = "ExportResult";
     bool EditItemsEnabled { get; set; }
     int FocusedRowVisibleIndex { get; set; }
-    EditableCompany[] Data { get; set; }
+    EditableEmployee[] Data { get; set; }
     IGrid Grid { get; set; }
 
     void Grid_CustomizeElement(GridCustomizeElementEventArgs e)
@@ -126,14 +105,11 @@
     protected override async Task OnInitializedAsync()
     {
         await LoadGridDataAsync();
-        LoadEmployeeData();
-        Data3 = GetCompanyType();
     }
 
     async Task LoadGridDataAsync()
     {
-        Data = CompanyData.Companies().ToArray();
-        Data3 = GetCompanyType();
+        Data = EmployeeData.GetSampleEmployees().ToArray();
     }
 
     void Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
@@ -149,8 +125,8 @@
 
     async Task Grid_DataItemDeleting(GridDataItemDeletingEventArgs e)
     {
-        var CompanyToDelete = (EditableCompany)e.DataItem;
-        Data = Data.Where(emp => emp.CompanyID != CompanyToDelete.CompanyID).ToArray();
+        var employeeToDelete = (EditableEmployee)e.DataItem;
+        Data = Data.Where(emp => emp.EmployeeID != employeeToDelete.EmployeeID).ToArray();
         if (Data.Length == 0)
             UpdateEditItemsEnabled(false);
     }
@@ -159,15 +135,15 @@
     {
         if (e.IsNew)
         {
-            var newCompany = (EditableCompany)e.EditModel;
-            newCompany.CompanyID = Data.Max(emp => emp.CompanyID) + 1;
-            Data = Data.Concat(new[] { newCompany }).ToArray();
+            var newEmployee = (EditableEmployee)e.EditModel;
+            newEmployee.EmployeeID = Data.Max(emp => emp.EmployeeID) + 1;
+            Data = Data.Concat(new[] { newEmployee }).ToArray();
         }
         else
         {
-            var editedCompany = (EditableCompany)e.EditModel;
-            var index = Array.FindIndex(Data, emp => emp.CompanyID == editedCompany.CompanyID);
-            Data[index] = editedCompany;
+            var editedEmployee = (EditableEmployee)e.EditModel;
+            var index = Array.FindIndex(Data, emp => emp.EmployeeID == editedEmployee.EmployeeID);
+            Data[index] = editedEmployee;
         }
     }
 
@@ -206,89 +182,6 @@
         await Grid.ExportToCsvAsync(ExportFileName);
     }
 
-    public class EditableCompany
-    {
-        public int CompanyID { get; set; }
-        public string CompanyName { get; set; }
-        public string CompanyCode { get; set; }
-        public string OilProvider { get; set; }
-        public string TaxID { get; set; }
-        public bool ActiveCheck { get; set; }
-        public CompanyType CompanyType { get; set; } 
-
-    }
-
-    public class CompanyData
-    {
-        public static List<EditableCompany> Companies()
-        {
-            var companyType = GetCompanyType().ToList();
-
-            return new List<EditableCompany>
-            {
-                new EditableCompany
-                {
-                    CompanyID = 1,
-                    CompanyName = "B2Cargo",
-                    CompanyCode = "111",
-                    OilProvider = "Total",
-                    ActiveCheck = true,
-                    TaxID = "001",
-                    CompanyType = companyType[0]
-                },
-                new EditableCompany
-                {
-                    CompanyID = 2,
-                    CompanyName = "Navis",
-                    CompanyCode = "222",
-                    OilProvider = "Shell",
-                    ActiveCheck = true,
-                    TaxID = "002",
-                    CompanyType = companyType[1]
-                },
-                new EditableCompany
-                {
-                    CompanyID = 3,
-                    CompanyName = "Omnia",
-                    CompanyCode = "333",
-                    OilProvider = "Petrol Ofisi",
-                    ActiveCheck = false,
-                    TaxID = "003",
-                    CompanyType = companyType[2]
-                },
-            };
-        }
-
-    }
-
-    IEnumerable<CompanyType> Data3 { get; set; }
-    CompanyType Value { get; set; }
-
-    public class CompanyType
-    {
-        public string CompanyTypeName { get; set; }
-    }
-
-    public static IEnumerable<CompanyType> GetCompanyType()
-    {
-        return new List<CompanyType>
-        {
-            new CompanyType { CompanyTypeName = "Nakliyeci" },
-            new CompanyType { CompanyTypeName = "Tedarikçi" },
-            new CompanyType { CompanyTypeName = "Müşteri" },
-        };
-    }
-
-    IEnumerable<EditableEmployee> Data2 { get; set; }
-    IEnumerable<EditableEmployee> Values { get; set; }
-
-
-    void LoadEmployeeData()
-    {
-        Data2 = EmployeeData.GetSampleEmployees();
-    }
-
-
     public class EditableEmployee
     {
         public int EmployeeID { get; set; }
@@ -297,7 +190,6 @@
         public string Email { get; set; }
         public string Pass { get; set; }
         public string Phone { get; set; }
-        public string Text => $"{FirstName} {LastName}";
     }
 
     public class EmployeeData
@@ -336,5 +228,4 @@
             };
         }
     }
-
 }

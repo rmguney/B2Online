@@ -43,11 +43,12 @@ html, body {
 
 .dx-rows {
     text-align: center;
-    color: dx
+    color: #000
 }
 
     .dx-rows:hover {
-        background-color: #fff7ed;
+        background-color: #fcac58;
+        color: #000
     }
 
 .dx-header {
@@ -78,20 +79,20 @@ html, body {
     }
 
 .dxbl-pager {
-    --dxbl-pager-page-btn-hover-bg: #fff7ed !important;
-    --dxbl-pager-btn-hover-bg: #fff7ed !important;
+    --dxbl-pager-page-btn-hover-bg: #fcac58 !important;
+    --dxbl-pager-btn-hover-bg: #fcac58 !important;
 }
 
 .dxbl-listbox {
-    --dxbl-listbox-item-hover-bg: #fff7ed !important;
+    --dxbl-listbox-item-hover-bg: #fcac58 !important;
 }
 
 .dxbl-text-edit {
-    --dxbl-text-edit-btn-hover-bg: #fff7ed !important;
+    --dxbl-text-edit-btn-hover-bg: #fcac58 !important;
 }
 
 .dxbl-btn-toolbar.dxbl-toolbar-btn-ellipsis > .dxbl-btn-split > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar.dxbl-toolbar-btn-ellipsis > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar.dxbl-toolbar-btn-ellipsis > .dxbl-btn.dxbl-btn-secondary > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar > .dxbl-btn-group.dxbl-toolbar-btn-ellipsis > .dxbl-btn-split > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar > .dxbl-btn-group.dxbl-toolbar-btn-ellipsis > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar > .dxbl-btn-group.dxbl-toolbar-btn-ellipsis > .dxbl-btn.dxbl-btn-secondary > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar > .dxbl-btn-group > .dxbl-btn-group.dxbl-toolbar-btn-ellipsis > .dxbl-btn-split > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar > .dxbl-btn-group > .dxbl-btn-group.dxbl-toolbar-btn-ellipsis > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar > .dxbl-btn-group > .dxbl-btn-group.dxbl-toolbar-btn-ellipsis > .dxbl-btn.dxbl-btn-secondary > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar > .dxbl-btn-group > .dxbl-btn-group > .dxbl-toolbar-item > .dxbl-btn-split > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar > .dxbl-btn-group > .dxbl-btn-group > .dxbl-toolbar-item > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar > .dxbl-btn-group > .dxbl-btn-group > .dxbl-toolbar-item > .dxbl-btn.dxbl-btn-secondary > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar > .dxbl-btn-group > .dxbl-toolbar-item > .dxbl-btn-split > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar > .dxbl-btn-group > .dxbl-toolbar-item > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar > .dxbl-btn-group > .dxbl-toolbar-item > .dxbl-btn.dxbl-btn-secondary > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar > .dxbl-toolbar-item > .dxbl-btn-split > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar > .dxbl-toolbar-item > .dxbl-btn.dxbl-btn-secondary, .dxbl-btn-toolbar > .dxbl-toolbar-item > .dxbl-btn.dxbl-btn-secondary > .dxbl-btn.dxbl-btn-secondary {
-    --dxbl-btn-hover-bg: #fff7ed !important;
+    --dxbl-btn-hover-bg: #fcac58 !important;
 }
 
 :root {

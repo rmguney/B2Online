@@ -1,0 +1,247 @@
+﻿@page "/panel/firmaKartiAtama"
+@layout Components.Layout.MainLayoutDepo
+@rendermode InteractiveServer
+<link href="_content/DevExpress.Blazor.Themes/bootstrap-external.bs5.min.css" rel="stylesheet" asp-append-version="true" />
+<PageTitle>OMNIA</PageTitle>
+
+<div class="px-4 mb-4">
+
+    <h3 class="text-xl lg:text-4xl text-blue-950 font-bold text-center p-4">
+        Atama İşlemleri
+    </h3>
+
+    <div class="lg:w-3/5 mx-auto px-4 mb-4">
+        <div class="flex items-center justify-between bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 px-8 py-2">
+            <a href="panel/atamalarDepo">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-white hover:text-orange-300">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                </svg>
+            </a>
+            <h1 class="text-lg text-white font-bold py-2 px-2">Firma Kartı Atama</h1>
+            <div></div>
+        </div>
+        <div class="bg-white shadow-md p-4">
+
+            <div class="flex flex-col">
+                <div class="flex flex-row my-4">
+                    <a class="text-blue-950 text-sm font-bold mb-2 w-1/4">Firma Kodu</a>
+                    <div class="w-3/4">
+                        <DxTextBox @bind-Text="FirmaKodu" CssClass="cw-480" />
+                    </div>
+                </div>
+
+                <div class="flex flex-row my-4">
+                    <a class="text-blue-950 text-sm font-bold mb-2 w-1/4">Firma Ünvanı</a>
+                    <div class="w-3/4">
+                        <DxTextBox @bind-Text="FirmaUnvani" CssClass="cw-480" />
+                    </div>
+                </div>
+
+                <div class="flex flex-row my-4">
+                    <a class="text-blue-950 text-sm font-bold mb-2 w-1/4">Firma Adresi</a>
+                    <div class="w-3/4">
+                        <DxTextBox @bind-Text="FirmaAdresi" CssClass="cw-480" />
+                    </div>
+                </div>
+
+                <div class="flex flex-row my-4">
+                    <a class="text-blue-950 text-sm font-bold mb-2 w-1/4">Firma Vergi No</a>
+                    <div class="w-3/4">
+                        <DxTextBox @bind-Text="FirmaVergiNo" CssClass="cw-480" />
+                    </div>
+                </div>
+
+                <a class="text-blue-950 text-sm font-bold py-4">Firmaya Tanımlı Sevk Adresleri</a>
+                <div class="pb-2 w-full">
+                    <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Contained">
+                        <DxToolbarItem Text="Yeni" Click="NewItem_Click" />
+                        <DxToolbarItem Text="Düzenle" Click="EditItem_Click" />
+                        <DxToolbarItem Text="Sil" Click="DeleteItem_Click" />
+                    </DxToolbar>
+                </div>
+
+                <div class="pb-2 w-full">
+
+                    <DxGrid @ref="Grid"
+                            Data="Data"
+                            FocusedRowEnabled="true"
+                            CustomizeElement="Grid_CustomizeElement"
+                            EditModelSaving="Grid_EditModelSaving"
+                            DataItemDeleting="Grid_DataItemDeleting"
+                            FocusedRowChanged="Grid_FocusedRowChanged"
+                            KeyboardNavigationEnabled="true">
+                        <Columns>
+                            <DxGridDataColumn FieldName="SubeKodu" Caption="Şube Kodu" MinWidth="50" Width="full" />
+                            <DxGridDataColumn FieldName="SubeUnvani" Caption="Şube Ünvanı" MinWidth="50" Width="full" />
+                            <DxGridDataColumn FieldName="SubeAdresi" Caption="Şube Adresi" MinWidth="50" Width="full" />
+                        </Columns>
+                        <EditFormTemplate Context="EditFormContext">
+                            <DxFormLayout CssClass="w-100">
+                                <DxFormLayoutItem Caption="Sevk Şube Kodu" ColSpanMd="6">
+                                    <DxTextBox @bind-Text="SelectedSubeKodu" CssClass="cw-480" />
+                                </DxFormLayoutItem>
+                                <DxFormLayoutItem Caption="Sevk Şube Ünvanı" ColSpanMd="6">
+                                    <DxTextBox @bind-Text="SelectedSubeUnvani" CssClass="cw-480" />
+                                </DxFormLayoutItem>
+                                <DxFormLayoutItem Caption="Sevk Şube Adresi" ColSpanMd="12">
+                                    @EditFormContext.GetEditor("SubeAdresi")
+                                </DxFormLayoutItem>
+                            </DxFormLayout>
+                        </EditFormTemplate>
+                    </DxGrid>
+
+                </div>
+
+                <div class="text-center pt-4">
+                    <a type="submit" class="w-1/4 shadow-md rounded-md bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 text-white font-bold text-sm lg:text-md px-4 py-2 mb-2 hover:text-blue-950 hover:from-white hover:shadow-sm border-2 border-violet-950 inline-flex items-center justify-center">Kaydet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    const string ExportFileName = "ExportResult";
+    bool EditItemsEnabled { get; set; }
+    int FocusedRowVisibleIndex { get; set; }
+    EditableSube[] Data { get; set; }
+    IGrid Grid { get; set; }
+
+    string FirmaKodu { get; set; } = string.Empty;
+    string FirmaUnvani { get; set; } = string.Empty;
+    string FirmaAdresi { get; set; } = string.Empty;
+    string FirmaVergiNo { get; set; } = string.Empty;
+    string SelectedSubeKodu { get; set; } = string.Empty;
+    string SelectedSubeUnvani { get; set; } = string.Empty;
+
+    void Grid_CustomizeElement(GridCustomizeElementEventArgs e)
+    {
+        if (e.ElementType == GridElementType.DataRow)
+        {
+            e.CssClass = "dx-rows";
+        }
+        if (e.ElementType == GridElementType.HeaderRow || e.ElementType == GridElementType.GroupPanelHeader)
+        {
+            e.CssClass = "dx-header";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadGridDataAsync();
+    }
+
+    async Task LoadGridDataAsync()
+    {
+        Data = SubeData.Subeler().ToArray();
+    }
+
+    void Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
+    {
+        FocusedRowVisibleIndex = args.VisibleIndex;
+        UpdateEditItemsEnabled(true);
+    }
+
+    void UpdateEditItemsEnabled(bool enabled)
+    {
+        EditItemsEnabled = enabled;
+    }
+
+    async Task Grid_DataItemDeleting(GridDataItemDeletingEventArgs e)
+    {
+        var SubeToDelete = (EditableSube)e.DataItem;
+        Data = Data.Where(s => s.SubeID != SubeToDelete.SubeID).ToArray();
+        if (Data.Length == 0)
+            UpdateEditItemsEnabled(false);
+    }
+
+    async Task Grid_EditModelSaving(GridEditModelSavingEventArgs e)
+    {
+        if (e.IsNew)
+        {
+            var newSube = (EditableSube)e.EditModel;
+            newSube.SubeID = Data.Max(s => s.SubeID) + 1;
+            Data = Data.Concat(new[] { newSube }).ToArray();
+        }
+        else
+        {
+            var editedSube = (EditableSube)e.EditModel;
+            var index = Array.FindIndex(Data, s => s.SubeID == editedSube.SubeID);
+            Data[index] = editedSube;
+        }
+    }
+
+    async Task NewItem_Click()
+    {
+        await Grid.StartEditNewRowAsync();
+    }
+
+    async Task EditItem_Click()
+    {
+        await Grid.StartEditRowAsync(FocusedRowVisibleIndex);
+    }
+
+    async Task DeleteItem_Click()
+    {
+        Grid.ShowRowDeleteConfirmation(FocusedRowVisibleIndex);
+    }
+
+    public class EditableSube
+    {
+        public int SubeID { get; set; }
+        public string SubeKodu { get; set; }
+        public string SubeUnvani { get; set; }
+        public string SubeAdresi { get; set; }
+    }
+
+    public class SubeData
+    {
+        public static List<EditableSube> Subeler()
+        {
+            return new List<EditableSube>
+            {
+                new EditableSube
+                {
+                    SubeID = 1,
+                    SubeKodu = "SK001",
+                    SubeUnvani = "Şube A",
+                    SubeAdresi = "Adres 1"
+                },
+                new EditableSube
+                {
+                    SubeID = 2,
+                    SubeKodu = "SK002",
+                    SubeUnvani = "Şube B",
+                    SubeAdresi = "Adres 2"
+                },
+                new EditableSube
+                {
+                    SubeID = 3,
+                    SubeKodu = "SK003",
+                    SubeUnvani = "Şube C",
+                    SubeAdresi = "Adres 3"
+                }
+            };
+        }
+    }
+
+    public static IEnumerable<EditableSube> GetSubeKodlari()
+    {
+        return new List<EditableSube>
+        {
+            new EditableSube { SubeKodu = "SK001" },
+            new EditableSube { SubeKodu = "SK002" },
+            new EditableSube { SubeKodu = "SK003" },
+        };
+    }
+
+    public static IEnumerable<EditableSube> GetSubeUnvanlari()
+    {
+        return new List<EditableSube>
+        {
+            new EditableSube { SubeUnvani = "Şube A" },
+            new EditableSube { SubeUnvani = "Şube B" },
+            new EditableSube { SubeUnvani = "Şube C" },
+        };
+    }
+}

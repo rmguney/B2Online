@@ -1,0 +1,407 @@
+﻿@page "/panel/urunKartiAtama"
+@layout Components.Layout.MainLayoutDepo
+@rendermode InteractiveServer
+<link href="_content/DevExpress.Blazor.Themes/bootstrap-external.bs5.min.css" rel="stylesheet" asp-append-version="true" />
+<PageTitle>OMNIA</PageTitle>
+
+<div class="px-4 mb-4">
+    <h3 class="text-xl lg:text-4xl text-blue-950 font-bold text-center p-4">
+        Atama İşlemleri
+    </h3>
+
+    <div class="lg:w-3/5 mx-auto px-4 mb-4">
+        <div class="flex items-center justify-between bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 px-8 py-2">
+            <a href="panel/atamalarDepo">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-white hover:text-orange-300">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                </svg>
+            </a>
+            <h1 class="text-lg text-white font-bold py-2 px-2">Ürün Kartı Atama</h1>
+            <div></div>
+        </div>
+
+        <div class="bg-white shadow-md p-4">
+            <div class="flex flex-col">
+                <div class="flex flex-row my-4">
+                    <a class="text-blue-950 text-sm mb-2 w-1/4 font-bold">Ürün Kodu</a>
+                    <div class="w-3/4">
+                        <DxTextBox @bind-Text="UrunKodu" CssClass="cw-480" />
+                    </div>
+                </div>
+
+                <div class="flex flex-row my-4">
+                    <a class="text-blue-950 text-sm font-bold mb-2 w-1/4">Ürün Adı</a>
+                    <div class="w-3/4">
+                        <DxTextBox @bind-Text="UrunAdi" CssClass="cw-480" />
+                    </div>
+                </div>
+
+                <div class="flex flex-row my-4">
+                    <a class="text-blue-950 text-sm font-bold mb-2 w-1/4">Ürün Grubu</a>
+                    <div class="w-3/4">
+                        <DxComboBox Data="@ProductGroups"
+                                    ListRenderMode="ListRenderMode.Virtual"
+                                    FilteringMode="DataGridFilteringMode.Contains"
+                                    TextFieldName="Name"
+                                    @bind-Value="SelectedProductGroup"
+                                    CssClass="cw-480"
+                                    InputId="cbProductGroups" />
+                    </div>
+                </div>
+
+                <div class="flex flex-row my-4">
+                    <a class="text-blue-950 text-sm font-bold mb-2 w-1/4">Barkod</a>
+                    <div class="w-3/4">
+                        <DxTextBox @bind-Text="Barkod" CssClass="cw-480" />
+                    </div>
+                </div>
+
+                <a class="text-blue-950 text-sm font-bold py-4">Ürün Ölçüleri</a>
+                <table class="min-w-full bg-white border border-gray-300">
+                    <thead>
+                        <tr>
+                            <th class="py-2 border-b border-gray-300 text-sm w-1"></th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-sm">Koli</th>
+                            <th class="py-2 px-4 border-b border-gray-300 text-sm">Palet</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 text-sm font-bold">En</td>
+                            <td class="py-2 px-4 ">
+                                <DxTextBox @bind-Text="KoliEn" CssClass="cw-480" @onchange="OnDimensionsChanged" />
+                            </td>
+                            <td class="py-2 px-4 ">
+                                <DxTextBox @bind-Text="PaletEn" CssClass="cw-480" @onchange="OnDimensionsChanged" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 text-sm font-bold">Boy</td>
+                            <td class="py-2 px-4">
+                                <DxTextBox @bind-Text="KoliBoy" CssClass="cw-480" @onchange="OnDimensionsChanged" />
+                            </td>
+                            <td class="py-2 px-4">
+                                <DxTextBox @bind-Text="PaletBoy" CssClass="cw-480" @onchange="OnDimensionsChanged" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 text-sm font-bold">Yükseklik</td>
+                            <td class="py-2 px-4">
+                                <DxTextBox @bind-Text="KoliYukseklik" CssClass="cw-480" @onchange="OnDimensionsChanged" />
+                            </td>
+                            <td class="py-2 px-4">
+                                <DxTextBox @bind-Text="PaletYukseklik" CssClass="cw-480" @onchange="OnDimensionsChanged" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 text-sm font-bold">Brüt Ağırlık</td>
+                            <td class="py-2 px-4">
+                                <DxTextBox @bind-Text="KoliBrutAgirlik" CssClass="cw-480" @onchange="OnDimensionsChanged" />
+                            </td>
+                            <td class="py-2 px-4 ">
+                                <DxTextBox @bind-Text="PaletBrutAgirlik" CssClass="cw-480" @onchange="OnDimensionsChanged" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                @if (IsErrorMessageVisible)
+                {
+                    <div class="text-orange-600 text-sm font-bold py-2">
+                        Standart palet ebatları en en fazla 80 ve boy en fazla 120 olmak üzere hesaplanmıştır. Bu ebatlardan daha büyük paletler farklı ücretlendirmeye tabi olabilir.
+                    </div>
+                }
+
+                <a class="text-blue-950 text-sm font-bold py-4"> Ürünün Tanımlı Olduğu Sevk Adresleri</a>
+                <div class="pb-2 w-full">
+                    <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Contained">
+                        <DxToolbarItem Text="Yeni" Click="NewItem_Click" />
+                        <DxToolbarItem Text="Düzenle" Click="EditItem_Click" />
+                        <DxToolbarItem Text="Sil" Click="DeleteItem_Click" />
+                    </DxToolbar>
+                </div>
+
+                <div class="pb-2 w-full">
+                    <DxGrid @ref="Grid"
+                            Data="Data"
+                            FocusedRowEnabled="true"
+                            CustomizeElement="Grid_CustomizeElement"
+                            EditModelSaving="Grid_EditModelSaving"
+                            DataItemDeleting="Grid_DataItemDeleting"
+                            FocusedRowChanged="Grid_FocusedRowChanged"
+                            KeyboardNavigationEnabled="true">
+                        <Columns>
+                            <DxGridDataColumn FieldName="SubeKodu" Caption="Şube Kodu" MinWidth="50" Width="full" />
+                            <DxGridDataColumn FieldName="SubeUnvani" Caption="Şube Ünvanı" MinWidth="50" Width="full" />
+                            <DxGridDataColumn FieldName="Artikel" Caption="Artikel No" MinWidth="50" Width="full" />
+                        </Columns>
+                        <EditFormTemplate Context="EditFormContext">
+                            <DxFormLayout CssClass="w-100">
+                                <DxFormLayoutItem Caption="Sevk Şube Kodu" ColSpanMd="6">
+                                    <DxComboBox Data="@GetSubeKodlari()"
+                                                ListRenderMode="ListRenderMode.Virtual"
+                                                FilteringMode="DataGridFilteringMode.Contains"
+                                                TextFieldName="SubeKodu"
+                                                @bind-Value="SelectedSevkSubeKodu"
+                                                CssClass="cw-480"
+                                                InputId="cbSevkSubeKodu" />
+                                </DxFormLayoutItem>
+                                <DxFormLayoutItem Caption="Sevk Şube Ünvanı" ColSpanMd="6">
+                                    <DxTextBox @bind-Text="SelectedSevkSubeUnvani" CssClass="cw-480" />
+                                </DxFormLayoutItem>
+                                <DxFormLayoutItem Caption="Artikel No" ColSpanMd="12">
+                                    @EditFormContext.GetEditor("Artikel")
+                                </DxFormLayoutItem>
+                            </DxFormLayout>
+                        </EditFormTemplate>
+                    </DxGrid>
+                </div>
+
+                <div class="flex flex-row my-4">
+                    <a class="text-blue-950 text-sm font-bold mb-2 w-1/4">Notlar</a>
+                    <div class="w-3/4">
+                        <DxTextBox @bind-Text="Notlar" CssClass="cw-480" />
+                    </div>
+                </div>
+
+                <div class="text-center pt-4">
+                    <a type="submit" class="w-1/4 shadow-md rounded-md bg-gradient-to-b from-blue-950 via-violet-950 to-purple-950 text-white font-bold text-sm lg:text-md px-4 py-2 mb-2 hover:text-blue-950 hover:from-white hover:shadow-sm border-2 border-violet-950 inline-flex items-center justify-center">Kaydet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    const string ExportFileName = "ExportResult";
+    bool EditItemsEnabled { get; set; }
+    int FocusedRowVisibleIndex { get; set; }
+    EditableSube[] Data { get; set; }
+    EditableSube[] Data2 { get; set; }
+    IGrid Grid { get; set; }
+    IGrid Grid2 { get; set; }
+
+    string FirmaKodu { get; set; } = string.Empty;
+    string FirmaUnvani { get; set; } = string.Empty;
+    string FirmaAdresi { get; set; } = string.Empty;
+    string FirmaVergiNo { get; set; } = string.Empty;
+    string SelectedSubeKodu { get; set; } = string.Empty;
+    string SelectedSubeUnvani { get; set; } = string.Empty;
+    string SelectedProductGroup { get; set; } = string.Empty;
+    string SelectedSevkSubeKodu { get; set; } = string.Empty;
+    string SelectedSevkSubeUnvani { get; set; } = string.Empty;
+
+    string UrunKodu { get; set; } = string.Empty;
+    string UrunAdi { get; set; } = string.Empty;
+    string Barkod { get; set; } = string.Empty;
+    string Notlar { get; set; } = string.Empty;
+
+
+    void Grid_CustomizeElement(GridCustomizeElementEventArgs e)
+    {
+        if (e.ElementType == GridElementType.DataRow)
+        {
+            e.CssClass = "dx-rows";
+        }
+        if (e.ElementType == GridElementType.HeaderRow || e.ElementType == GridElementType.GroupPanelHeader)
+        {
+            e.CssClass = "dx-header";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadGridDataAsync();
+        @*
+        await LoadGrid2DataAsync();
+        *@
+    }
+
+    async Task LoadGridDataAsync()
+    {
+        Data = SubeData.Subeler().ToArray();
+    }
+    @*
+    async Task LoadGrid2DataAsync()
+    {
+        Data2 = new EditableSube[] {
+            new EditableSube { Fixed = "10", Koli = "5", Palet = "2" },
+            new EditableSube { Fixed = "20", Koli = "6", Palet = "3" }
+    };
+    }
+    *@
+    void Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
+    {
+        FocusedRowVisibleIndex = args.VisibleIndex;
+        UpdateEditItemsEnabled(true);
+    }
+
+    void UpdateEditItemsEnabled(bool enabled)
+    {
+        EditItemsEnabled = enabled;
+    }
+
+    async Task Grid_DataItemDeleting(GridDataItemDeletingEventArgs e)
+    {
+        var SubeToDelete = (EditableSube)e.DataItem;
+        Data = Data.Where(s => s.SubeID != SubeToDelete.SubeID).ToArray();
+        if (Data.Length == 0)
+            UpdateEditItemsEnabled(false);
+    }
+
+    async Task Grid_EditModelSaving(GridEditModelSavingEventArgs e)
+    {
+        if (e.IsNew)
+        {
+            var newSube = (EditableSube)e.EditModel;
+            newSube.SubeID = Data.Max(s => s.SubeID) + 1;
+            Data = Data.Concat(new[] { newSube }).ToArray();
+        }
+        else
+        {
+            var editedSube = (EditableSube)e.EditModel;
+            var index = Array.FindIndex(Data, s => s.SubeID == editedSube.SubeID);
+            Data[index] = editedSube;
+        }
+    }
+
+    async Task NewItem_Click()
+    {
+        await Grid.StartEditNewRowAsync();
+    }
+
+    async Task EditItem_Click()
+    {
+        await Grid.StartEditRowAsync(FocusedRowVisibleIndex);
+    }
+
+    async Task DeleteItem_Click()
+    {
+        Grid.ShowRowDeleteConfirmation(FocusedRowVisibleIndex);
+    }
+
+    public class EditableSube
+    {
+        public int SubeID { get; set; }
+        public string SubeKodu { get; set; }
+        public string SubeUnvani { get; set; }
+        public string SubeAdresi { get; set; }
+        public string Artikel { get; set; }
+    }
+
+    public class SubeData
+    {
+        public static List<EditableSube> Subeler()
+        {
+            return new List<EditableSube>
+            {
+                new EditableSube
+                {
+                    SubeID = 1,
+                    SubeKodu = "SK001",
+                    SubeUnvani = "Şube A",
+                    SubeAdresi = "Adres 1",
+                    Artikel = "1111"
+                },
+                new EditableSube
+                {
+                    SubeID = 2,
+                    SubeKodu = "SK002",
+                    SubeUnvani = "Şube B",
+                    SubeAdresi = "Adres 2",
+                    Artikel = "2222"
+                },
+                new EditableSube
+                {
+                    SubeID = 3,
+                    SubeKodu = "SK003",
+                    SubeUnvani = "Şube C",
+                    SubeAdresi = "Adres 3",
+                    Artikel = "3333"
+                }
+            };
+        }
+    }
+
+    public static IEnumerable<ProductGroup> ProductGroups => new List<ProductGroup>
+    {
+        new ProductGroup { Name = "Donuk" },
+        new ProductGroup { Name = "Soğuk" },
+        new ProductGroup { Name = "Serin" },
+        new ProductGroup { Name = "Kuru" },
+        new ProductGroup { Name = "Ambalaj" }
+    };
+
+    public class ProductGroup
+    {
+        public string Name { get; set; }
+    }
+
+    public static IEnumerable<EditableSube> GetSubeKodlari()
+    {
+        return new List<EditableSube>
+        {
+            new EditableSube { SubeKodu = "SK001" },
+            new EditableSube { SubeKodu = "SK002" },
+            new EditableSube { SubeKodu = "SK003" },
+        };
+    }
+
+    public static IEnumerable<EditableSube> GetSubeUnvanlari()
+    {
+        return new List<EditableSube>
+        {
+            new EditableSube { SubeUnvani = "Şube A" },
+            new EditableSube { SubeUnvani = "Şube B" },
+            new EditableSube { SubeUnvani = "Şube C" },
+        };
+    }
+
+    //error logic
+
+    private string KoliEn { get; set; }
+    private string KoliBoy { get; set; }
+    private string KoliYukseklik { get; set; }
+    private string KoliBrutAgirlik { get; set; }
+    private string PaletEn { get; set; }
+    private string PaletBoy { get; set; }
+    private string PaletYukseklik { get; set; }
+    private string PaletBrutAgirlik { get; set; }
+    private bool IsErrorMessageVisible { get; set; } = false;
+
+    private void OnDimensionsChanged()
+    {
+        const double minDimensionValue = 1;
+        const double maxDimensionValue = 1000;
+        const double maxDimensionValueEn = 80;
+        const double maxDimensionValueBoy = 120;
+
+        if (IsOutOfRange(KoliEn, minDimensionValue, maxDimensionValue) ||
+            IsOutOfRange(KoliBoy, minDimensionValue, maxDimensionValue) ||
+            IsOutOfRange(KoliYukseklik, minDimensionValue, maxDimensionValue) ||
+            IsOutOfRange(KoliBrutAgirlik, minDimensionValue, maxDimensionValue) ||
+            IsOutOfRange(PaletEn, minDimensionValue, maxDimensionValueEn) ||
+            IsOutOfRange(PaletBoy, minDimensionValue, maxDimensionValueBoy) ||
+            IsOutOfRange(PaletYukseklik, minDimensionValue, maxDimensionValue) ||
+            IsOutOfRange(PaletBrutAgirlik, minDimensionValue, maxDimensionValue))
+        {
+            IsErrorMessageVisible = true;
+        }
+        else
+        {
+            IsErrorMessageVisible = false;
+        }
+
+        StateHasChanged();
+    }
+
+
+    private bool IsOutOfRange(string value, double min, double max)
+    {
+        if (double.TryParse(value, out double result))
+        {
+            return result < min || result > max;
+        }
+        return true;
+    }
+    }
