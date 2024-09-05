@@ -1,0 +1,57 @@
+﻿@page "/deleteUser"
+@layout Components.Layout.LoginLayout
+@inject IJSRuntime JSRuntime
+<PageTitle>OMNIA</PageTitle>
+
+<div>
+    <div class="flex justify-center items-center flex-col lg:flex-row">
+
+        <div class="flex-col flex flex-wrap items-center justify-center -translate-y-14">
+            <img src="assets/husky-login.png"
+                 class="w-1/2 translate-y-12"
+                 alt="OMNIA" />
+
+            <div class="bg-white p-8 py-2 shadow-md w-80">
+                <a class="p-4"></a>
+                <form>
+                    <div class="py-8 -mb-4">
+                        <label for="username" class="block text-blue-950 text-md mb-1">Kullanıcı Adı</label>
+                        <input type="text" id="username" class="text-md p-2 block w-full rounded-md border border-slate-200 focus:outline-orange-500">
+                    </div>
+
+                    <div class="text-center pb-2">
+                        <button id="deleteButton" type="button" onclick="deleteAccount()" class="loading-text w-full text-white text-lg p-1 rounded-md bg-gradient-to-b from-orange-400 to-red-600 hover:from-white hover:text-orange-600 shadow-md hover:shadow-sm border-2 border-orange-600">
+                            Hesabı Sil
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="text-orange-500 text-xs text-center lg:translate-y-24 mb-2 lg:mb-0">
+        OMNIA  <br />
+        Powered by Navis Kurumsal, brand of B2Group <br />
+        All Rights Reserved
+    </div>
+</div>
+
+<script>
+    function deleteAccount() {
+        var deleteButton = document.getElementById("deleteButton");
+        var loadingText = "Siliniyor, lütfen bekleyiniz";
+        var dotCount = 0;
+        deleteButton.disabled = true; 
+
+        var interval = setInterval(function () {
+            dotCount = (dotCount + 1) % 4;  
+            deleteButton.innerHTML = loadingText + '.'.repeat(dotCount);
+        }, 500);
+
+        setTimeout(function () {
+            clearInterval(interval);
+            deleteButton.innerHTML = "Hesabınız silinmiştir";
+            deleteButton.disabled = false; 
+        }, 3000); // 3 saniyelik bekleme süresi
+    }
+</script>
